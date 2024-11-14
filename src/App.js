@@ -26,7 +26,9 @@ function App() {
                </CardLayout>
             } />
             <Route element={<ProtectedRoute />}>
-               <Route path="/" element={<Articles />} />
+               <Route path="/" element={
+                  <Articles />
+               } />
             </Route>
          </Routes>
          <Footer />

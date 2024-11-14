@@ -2,7 +2,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import DropdownSwitch from './DropdownSwitch';
 import LogoutToggleButton from './LogoutToggleButton';
-import { useUser } from '../components/UserProvider';
+import useUser from '../components/UserProvider';
 
 function Navigation() {
    const { user } = useUser();
@@ -17,8 +17,8 @@ function Navigation() {
                   <Nav.Link to="/">Home</Nav.Link>
                   <Nav.Link to="/contact">Kontakt</Nav.Link>
                   {user ? (
-                     <NavDropdown id="dropdown-basic-button" variant='none' title={user.username}>
-                        <DropdownSwitch></DropdownSwitch>
+                     <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
+                        <DropdownSwitch labelName='Dark mode' />
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
                         </NavDropdown>

@@ -1,4 +1,4 @@
-import { useUser } from '../components/UserProvider';
+import useUser from '../components/UserProvider';
 import { Navigate } from 'react-router-dom';
 
 function ProtectedRoute({ children }) {

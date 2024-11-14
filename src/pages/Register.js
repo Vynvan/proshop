@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
-import { useUser } from '../components/UserProvider';
+import useUser from '../components/UserProvider';
 
 function Register() {
    const { user, setUser } = useUser();
