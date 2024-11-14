@@ -12,3 +12,12 @@
   border-left: 0;
   border-right: 0;
 }
+
+.complex-item:active {
+  color: inherit;
+  background-color: inherit;
+}
+
+nav .dropdown-menu[data-bs-popper] {
+  left: -80px;
+}
