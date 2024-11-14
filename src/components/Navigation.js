@@ -15,13 +15,12 @@ function Navigation() {
             <Navbar.Collapse id="basic-navbar-nav">
                <Nav className="ms-auto">
                   <Nav.Link to="/">Home</Nav.Link>
-                  <Nav.Link to="/contact">Kontakt</Nav.Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
                         <DropdownSwitch labelName='Dark mode' />
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
-                        </NavDropdown>
+                     </NavDropdown>
                      ) : <Nav.Link to="/login">Login</Nav.Link>
                   }
                </Nav>

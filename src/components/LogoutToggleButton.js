@@ -1,7 +1,7 @@
 import { Button, DropdownItem } from 'react-bootstrap';
 import useUser from './UserProvider';
 
-function LogoutToggleButton({ asDropdownItem, loginText, onLogin, setMessage, setMessageType }) {
+function LogoutToggleButton({ asDropdownItem, loginText, onLogin, setMessage, setMessageType, setNotification }) {
    const { user, setUser } = useUser();
 
    if (!onLogin) onLogin = () => {};
@@ -15,6 +15,10 @@ function LogoutToggleButton({ asDropdownItem, loginText, onLogin, setMessage, se
       setUser(null);
       if (setMessage) setMessage('Sie haben sich ausgeloggt. Bis zum nächsten Mal!');
       if (setMessageType) setMessageType('success');
+      if (setNotification) setNotification({
+         text: 'Sie haben sich ausgeloggt. Bis zum nächsten Mal!',
+         type: 'success'
+      });
    }
    
    return (

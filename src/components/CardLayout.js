@@ -15,7 +15,7 @@ function CardLayout({ children, asDiv, childrenAsArticle }) {
          });
          setVisibleChildren(prev => ({ ...prev, ...newVisibleChildren }));
       }
-   }, [childrenArray]);
+   }, [children]);
 
    return (
       <Container as={asDiv ? 'div' : 'main'} className='flex-grow-1'>

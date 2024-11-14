@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Alert, Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
+import Notification from '../components/Notification';
 import useUser from '../components/UserProvider';
 
 function Login() {
    const { user, setUser } = useUser();
-   const [ message, setMessage ] = useState('');
-   const [ messageType, setMessageType ] = useState('danger');
+   const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
 
    const handleLogin = async () => {
@@ -24,22 +24,23 @@ function Login() {
          const { message, userId, token } = await response.json();
          if (response.ok) {
             setUser({ username, userId, token });
-            setMessage('Sie haben sich erfolgreich eingeloggt. Sie werden gleich weitergeleitet...');
-            setMessageType('success');
-            setTimeout(() => navigate('/'), 2000);
+            setNotification({
+               text: 'Sie haben sich erfolgreich eingeloggt. Sie werden gleich weitergeleitet...',
+               type: 'success'
+            });
+            setTimeout(() => navigate('/'), 5000);
          } else {
-            setMessage(message ?? 'Login fehlgeschlagen!');
+            setNotification(message ?? 'Login fehlgeschlagen!');
          }
       } catch (error) {
-         console.error('Fehler beim Login:', error);
-         setMessage('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
+         setNotification('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
       }
    };
 
    return (
       <Container fluid className="component my-3 justify-content-center">
          <h3>{user ? 'Herzlich willkommen!' : 'Bitte einloggen:'}</h3>
-         {message && <Alert className='text-center' variant={messageType}>{message}</Alert>}
+         <Notification notification={notification} />
          <Form name='login' onSubmit={handleLogin}>
             {!user && (
                <>
@@ -54,7 +55,7 @@ function Login() {
                </>
             )}
             <Form.Group className="d-flex justify-content-around">
-               <LogoutToggleButton onLogin={handleLogin} setMessage={setMessage} setMessageType={setMessageType} />
+               <LogoutToggleButton onLogin={handleLogin} setNotification={setNotification} />
                {!user && <Button onClick={() => navigate('/register')}>Registrieren</Button>}
             </Form.Group>
          </Form>
