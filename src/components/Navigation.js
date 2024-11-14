@@ -8,21 +8,21 @@ function Navigation() {
    const { user } = useUser();
 
    return (
-      <Navbar as="nav" expand="sm" className="mb-5 bg-body-tertiary sticky-top card shadow">
+      <Navbar as="nav" expand="sm" className="mb-5 bg-body-tertiary sticky-top card shadow complete-width">
          <Container>
-            <Navbar.Brand href="/">user-profile-arndt</Navbar.Brand>
+            <Navbar.Brand href="/">ProShop</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                <Nav className="ms-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="/contact">Kontakt</Nav.Link>
+                  <Nav.Link to="/">Home</Nav.Link>
+                  <Nav.Link to="/contact">Kontakt</Nav.Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" variant='none' title={user.username}>
                         <DropdownSwitch></DropdownSwitch>
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
                         </NavDropdown>
-                     ) : <Nav.Link href="/login">Login</Nav.Link>
+                     ) : <Nav.Link to="/login">Login</Nav.Link>
                   }
                </Nav>
             </Navbar.Collapse>

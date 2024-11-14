@@ -1,9 +1,14 @@
 .App {
-  min-height: 100vh;
   text-align: center;
 }
 
 .container-fluid.component, .container.component {
   width: auto;
   min-width: min(95%, 300px);
+}
+
+.complete-width {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
 }
