@@ -3,7 +3,7 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
 import Notification from '../components/Notification';
-import useUser from '../components/UserProvider';
+import useUser from '../hooks/UserProvider';
 
 function Login() {
    const { user, setUser } = useUser();

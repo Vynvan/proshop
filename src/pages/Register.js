@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { Alert, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
-import useUser from '../components/UserProvider';
+import useUser from '../hooks/UserProvider';
 
-function Register() {
+export default function Register() {
    const { user, setUser } = useUser();
-   const [ message, setMessage ] = useState('');
-   const [ messageType, setMessageType ] = useState('danger');
+   const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
 
    const handleRegistration = async () => {
@@ -18,7 +17,7 @@ function Register() {
       const password2 = document.forms['register']['password2'].value;
 
       if (password !== password2) {
-         setMessage('Passwort und Passwort-Bestätigung sind ungleich.');
+         setMessasetNotification('Passwort und Passwort-Bestätigung sind ungleich.');
          return;
       }
 
@@ -32,22 +31,23 @@ function Register() {
          const { message, userId, token } = await response.json();
          if (response.ok) {
             setUser({ username, userId, token });
-            setMessage('Sie haben sich erfolgreich registriert. Sie werden gleich weitergeleitet...');
-            setMessageType('success');
-            setTimeout(() => navigate('/'), 2000);
+            setNotification({
+               text: 'Sie haben sich erfolgreich registriert. Sie werden gleich weitergeleitet...',
+               type: 'success'
+            });
+            setTimeout(() => navigate('/'), 3000);
          } else {
-            setMessage(message ?? 'Registrierung fehlgeschlagen!');
+            setNotification(message ?? 'Registrierung fehlgeschlagen!');
          }
       } catch (error) {
-         console.error('Fehler bei der Registrierung:', error);
-         setMessage('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
+         setNotification('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
       }
    };
 
    return (
       <Container fluid className="component my-3 justify-content-center">
          <h3>{user ? 'Herzlich willkommen!' : 'Bitte alle Felder ausfüllen:'}</h3>
-         {message && <Alert className='text-center' variant={messageType}>{message}</Alert>}
+         <Notification notification={notification} />
          <Form name='register'>
             {!user && (
                <>
@@ -74,11 +74,9 @@ function Register() {
                </>
             )}
             <Form.Group className="d-flex justify-content-around">
-               <LogoutToggleButton loginText={'Registrieren'} onLogin={handleRegistration} setMessage={setMessage} />
+               <LogoutToggleButton loginText={'Registrieren'} onLogin={handleRegistration} setNotification={setNotification} />
             </Form.Group>
          </Form>
       </Container>
    );
 }
-
-export default Register;

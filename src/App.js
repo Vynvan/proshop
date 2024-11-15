@@ -4,7 +4,7 @@ import CardLayout from './components/CardLayout';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
-import { UserProvider } from './components/UserProvider';
+import { UserProvider } from './hooks/UserProvider';
 import Articles from './pages/Articles';
 import Login from './pages/Login';
 import Register from './pages/Register';

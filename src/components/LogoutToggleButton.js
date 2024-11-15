@@ -1,5 +1,5 @@
 import { Button, DropdownItem } from 'react-bootstrap';
-import useUser from './UserProvider';
+import useUser from '../hooks/UserProvider';
 
 function LogoutToggleButton({ asDropdownItem, loginText, onLogin, setMessage, setMessageType, setNotification }) {
    const { user, setUser } = useUser();

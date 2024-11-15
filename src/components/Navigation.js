@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import DropdownSwitch from './DropdownSwitch';
 import LogoutToggleButton from './LogoutToggleButton';
-import useUser from '../components/UserProvider';
+import useUser from '../hooks/UserProvider';
 
 function Navigation() {
    const { user } = useUser();
