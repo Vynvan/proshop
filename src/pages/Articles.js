@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import Article from "../components/Article";
 
 export default function Articles() {
@@ -41,8 +41,14 @@ export default function Articles() {
    ];
 
    return (
-      <Container>
-         {testArticles.map(article => <Article data={article} key={article.product_id} />)}
-      </Container>
+    <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="mx-1 p-md-3 p-2">
+        {testArticles.map(article => {
+            return (
+                <Col key={article.product_id} className="g-md-3 g-2">
+                    <Article data={article} />
+                </Col>
+            );
+        })}
+    </Row>      
    );
 }
