@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Alert, Container, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
+import Notification from '../components/Notification';
 import useUser from '../hooks/UserProvider';
 
 export default function Register() {
@@ -17,7 +18,7 @@ export default function Register() {
       const password2 = document.forms['register']['password2'].value;
 
       if (password !== password2) {
-         setMessasetNotification('Passwort und Passwort-Bestätigung sind ungleich.');
+         setNotification('Passwort und Passwort-Bestätigung sind ungleich.');
          return;
       }
 
