@@ -3,7 +3,7 @@ import { Card, Row } from 'react-bootstrap';
 function Footer() {
 
    return (
-      <Card as="footer" className="mt-4 px-5 py-4 bg-white shadow sticky-bottom complete-width">
+      <Card as="footer" className="mt-4 px-5 py-4 bg-white shadow complete-width">
          <Row className="align-items-center justify-content-between flex-column flex-sm-row">
             <div className="col-auto">
                   <div className="small m-0">Copyright &copy; Matthias Arndt 2024</div>

@@ -9,7 +9,7 @@ function Navigation() {
    const { user } = useUser();
 
    return (
-      <Navbar as="nav" expand="sm" className="mb-5 bg-body-tertiary sticky-top card shadow complete-width">
+      <Navbar as="nav" expand="sm" className="mb-4 bg-body-tertiary sticky-top card shadow complete-width">
          <Container>
             <Navbar.Brand href="/">ProShop</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
