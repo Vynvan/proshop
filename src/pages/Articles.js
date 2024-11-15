@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Card, Col, Image, Row } from 'react-bootstrap';
 import Article from '../components/Article';
-import ArticleDetails from '../components/ArticleDetails';
 
 export default function Articles() {
    const testArticles = [
@@ -42,40 +41,37 @@ export default function Articles() {
       },
    ];
    const [selectedArticle, setSelectedArticle] = useState(null);
-   const [showOverlay, setShowOverlay] = useState(false);
-   const overlayTarget = useRef(null);
-
-   function handleClick(article) {
-      setSelectedArticle(article);
-      setShowOverlay(true);
-   }
-
-   function handleCloseOverlay() {
-      setShowOverlay(false);
-      setSelectedArticle(null);
-   }
 
    return (
       <>
-      <div ref={overlayTarget}>
-         <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="mx-1 p-md-3 p-2">
-            {testArticles.map((article) => {
-               return (
-                  <Col key={article.product_id} className="g-md-3 g-2">
-                     <Article data={article} onClick={() => handleClick(article)} />
+         {!selectedArticle && (
+            <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="mx-1 p-md-3 p-2">
+               {testArticles.map((article) => {
+                  return (
+                     <Col key={article.product_id} className="g-md-3 g-2">
+                        <Article data={article} onClick={() => setSelectedArticle(article)} />
+                     </Col>
+                  );
+               })}
+            </Row>
+         )}
+         {selectedArticle && (
+            <Card className="details mx-1 p-md-3 p-2">
+               <Card.Header className="d-flex justify-content-between">
+                  <Card.Title>{selectedArticle.title}</Card.Title>
+                  <Button variant="close" onClick={() => setSelectedArticle(null)} aria-label="Close" />
+               </Card.Header>
+               <Card.Body className='row'>
+                  <Image src={selectedArticle.image} srcSet="2922280_27002.jpg" alt={selectedArticle.title} 
+                     className="mb-2 col-md-6" fluid />
+                  <Col sm="6"className='px-2 py-4'>
+                     <Card.Title >{selectedArticle.title}</Card.Title>
+                     <p>Preis: {selectedArticle.price} €</p>
                   </Col>
-               );
-            })}
-         </Row>
-      </div>
-      {overlayTarget && selectedArticle && (
-         <ArticleDetails
-         show={showOverlay}
-         onHide={handleCloseOverlay}
-         article={selectedArticle}
-         target={overlayTarget.current}
-         />
-      )}
+                  <p>{selectedArticle.text}</p>
+               </Card.Body>
+            </Card>
+         )}
       </>
    );
 }

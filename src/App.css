@@ -25,16 +25,9 @@ nav .dropdown-menu[data-bs-popper] {
 button.rounded-circle {
   padding: 6px 10px;
 }
+
 .rounded-circle .bi {
   height: 20px;
   width: 20px;
   margin-top: -3px;
-}
-
-.overlay {
-  /* position: fixed; */
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
