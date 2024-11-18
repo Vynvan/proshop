@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Button, Card, Col, Image, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Article from '../components/Article';
+import useCart from '../hooks/CardProvider';
+import ArticleDetails from '../components/ArticleDetails';
 
 export default function Articles() {
+   const { addArticle } = useCart();
    const testArticles = [
       {
          title: 'Artikel 1',
@@ -55,23 +58,7 @@ export default function Articles() {
                })}
             </Row>
          )}
-         {selectedArticle && (
-            <Card className="details mx-1 p-md-3 p-2">
-               <Card.Header className="d-flex justify-content-between">
-                  <Card.Title>{selectedArticle.title}</Card.Title>
-                  <Button variant="close" onClick={() => setSelectedArticle(null)} aria-label="Close" />
-               </Card.Header>
-               <Card.Body className='row'>
-                  <Image src={selectedArticle.image} srcSet="2922280_27002.jpg" alt={selectedArticle.title} 
-                     className="mb-2 col-md-6" fluid />
-                  <Col sm="6"className='px-2 py-4'>
-                     <Card.Title >{selectedArticle.title}</Card.Title>
-                     <p>Preis: {selectedArticle.price} €</p>
-                  </Col>
-                  <p>{selectedArticle.text}</p>
-               </Card.Body>
-            </Card>
-         )}
+         {selectedArticle && <ArticleDetails article={selectedArticle} setSelectedArticle={setSelectedArticle} />}
       </>
    );
 }
