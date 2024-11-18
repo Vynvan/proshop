@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Article from '../components/Article';
-import useCart from '../hooks/CardProvider';
 import ArticleDetails from '../components/ArticleDetails';
 
 export default function Articles() {
-   const { addArticle } = useCart();
    const testArticles = [
       {
          title: 'Artikel 1',
@@ -52,7 +50,7 @@ export default function Articles() {
                {testArticles.map((article) => {
                   return (
                      <Col key={article.product_id} className="g-md-3 g-2">
-                        <Article data={article} onClick={() => setSelectedArticle(article)} />
+                        <Article article={article} onClick={() => setSelectedArticle(article)} />
                      </Col>
                   );
                })}
