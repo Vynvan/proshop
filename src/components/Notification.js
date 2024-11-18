@@ -16,11 +16,11 @@ export default function Notification({ className, notification }) {
       if (message !== '' && messageType !== 'danger') {
          setTimeout(() => setMessage(''), 3000);
       }
-   }, [message]);
+   }, [message, messageType]);
 
    return (
       <>
-         {message && <Alert className={className ? className : '' + 'text-center'} variant={messageType}>{message}</Alert>}
+         {message && <Alert className={(className ? className : '') + 'text-center'} variant={messageType}>{message}</Alert>}
       </>
    );
 }

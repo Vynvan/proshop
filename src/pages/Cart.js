@@ -21,6 +21,7 @@ export default function Cart() {
 
          const { message, success } = await response.json();
          if (response.ok && success === 1) {
+            navigate(`/order&id=${response.id}`);
          } else {
             setNotification(message ?? 'Bestellung fehlgeschlagen!');
          }
