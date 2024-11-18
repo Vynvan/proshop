@@ -16,7 +16,7 @@ export function CardProvider({ children }) {
                console.log(`${articleInCart.title}: ${articleInCart.quantity}`)
                return [...state];
             }
-            else return [...state, { ...action.article, quantity: 1 }];
+            else return [...state, { ...action.article, quantity: action.quantity || 1 }];
          case 'DECREMENT':
             const articleToDecrement = state.find(item => item.product_id === action.id);
             if (articleToDecrement && articleToDecrement.quantity > 1) {
@@ -38,8 +38,8 @@ export function CardProvider({ children }) {
       else if (user) localStorage.removeItem(`cart-${user.userId}`);
    }, [cart, user]);
 
-   function addArticle(article) {
-      dispatch({ id: article.product_id, article, type: 'ADD' });
+   function addArticle(article, quantity) {
+      dispatch({ id: article.product_id, article, quantity, type: 'ADD' });
    }
 
    function decrement(article) {

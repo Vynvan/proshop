@@ -42,3 +42,11 @@ nav .bi {
 .accordion-item .accordion-button {
   width: fit-content;
 }
+
+.cart-item .price {
+  min-width: 70px;
+}
+
+.cart-item .title {
+  cursor: pointer;
+}
