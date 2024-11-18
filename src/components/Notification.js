@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 
-export default function Notification({ notification }) {
+export default function Notification({ className, notification }) {
    const [ message, setMessage ] = useState('');
    const [ messageType, setMessageType ] = useState('danger');
 
@@ -20,7 +20,7 @@ export default function Notification({ notification }) {
 
    return (
       <>
-         {message && <Alert className='text-center' variant={messageType}>{message}</Alert>}
+         {message && <Alert className={className ? className : '' + 'text-center'} variant={messageType}>{message}</Alert>}
       </>
    );
 }
