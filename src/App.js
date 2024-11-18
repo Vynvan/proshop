@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CardProvider } from './hooks/CardProvider';
 import { UserProvider } from './hooks/UserProvider';
 import Articles from './pages/Articles';
+import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -14,27 +15,30 @@ function App() {
    return (
    <UserProvider>
       <CardProvider>
-      <BrowserRouter>
-         <Navigation />
-         <Routes>
-            <Route path="/login" element={
-               <CardLayout>
-                  <Login />
-               </CardLayout>
-            } />
-            <Route path="/register" element={
-               <CardLayout>
-                  <Register />
-               </CardLayout>
-            } />
-            <Route element={<ProtectedRoute />}>
-               <Route path="/" element={
-                  <Articles />
+         <BrowserRouter>
+            <Navigation />
+            <Routes>
+               <Route path="/login" element={
+                  <CardLayout>
+                     <Login />
+                  </CardLayout>
                } />
-            </Route>
-         </Routes>
-         <Footer />
-      </BrowserRouter>
+               <Route path="/register" element={
+                  <CardLayout>
+                     <Register />
+                  </CardLayout>
+               } />
+               <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={
+                     <Articles />
+                  } />
+                  <Route path='/cart' element={
+                     <Cart />
+                  } />
+               </Route>
+            </Routes>
+            <Footer />
+         </BrowserRouter>
       </CardProvider>
    </UserProvider>
    );

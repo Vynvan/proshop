@@ -5,35 +5,37 @@ const CartContext = createContext();
 
 export function CardProvider({ children }) {
    const { user } = useUser();
-   const initialState = user && localStorage.getItem(`cart-${user.id}`) ? JSON.parse(localStorage.getItem(`cart-${user.id}`)) : [];
+   const initialState = user && localStorage.getItem(`cart-${user.userId}`) ? JSON.parse(localStorage.getItem(`cart-${user.userId}`)) : [];
    const [cart, dispatch] = useReducer((state, action) => {
       console.log('Dispatch: state:', state, 'action: ', action)
       switch (action.type) {
-         case 'INCREMENT':
          case 'ADD':
             const articleInCart = state.find(item => item.product_id === action.id);
             if (articleInCart) {
                articleInCart.quantity += 1;
-               return state;
+               console.log(`${articleInCart.title}: ${articleInCart.quantity}`)
+               return [...state];
             }
             else return [...state, { ...action.article, quantity: 1 }];
          case 'DECREMENT':
             const articleToDecrement = state.find(item => item.product_id === action.id);
             if (articleToDecrement && articleToDecrement.quantity > 1) {
                articleToDecrement.quantity -= 1;
-               return state;
+               return [...state];
             }
+            else return state;
          case 'REMOVE':
-            return state.filter(item => item.product_id === action.id);
+            return state.filter(item => item.product_id !== action.id);
          default:
+            console.log('Invalid dispatch!')
             return state;
       }
    }, initialState);
 
    useEffect(() => {
       console.log('UseEffect Cardprovider: ', cart);
-      if (cart) localStorage.setItem(`cart-${user.id}`, JSON.stringify(cart));
-      else localStorage.removeItem(`cart-${user.id}`);
+      if (user && cart) localStorage.setItem(`cart-${user.userId}`, JSON.stringify(cart));
+      else if (user) localStorage.removeItem(`cart-${user.userId}`);
    }, [cart, user]);
 
    function addArticle(article) {
@@ -44,15 +46,11 @@ export function CardProvider({ children }) {
       dispatch({ id: article.product_id, type: 'DECREMENT' });
    }
 
-   function increment(article) {
-      dispatch({ id: article.product_id, type: 'INCREMENT' });
-   }
-
    function removeArticle(article) {
       dispatch({ id: article.product_id, type: 'REMOVE' });
    }
 
-   return <CartContext.Provider value={{ cart, addArticle, decrement, increment, removeArticle }}>
+   return <CartContext.Provider value={{ cart, addArticle, decrement, removeArticle }}>
       {children}
    </CartContext.Provider>;
 };

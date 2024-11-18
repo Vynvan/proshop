@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import CartLink from './CartLink';
 import DropdownSwitch from './DropdownSwitch';
 import LogoutToggleButton from './LogoutToggleButton';
 import useUser from '../hooks/UserProvider';
@@ -15,7 +16,10 @@ function Navigation() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                <Nav className="ms-auto">
-                  <Link className='nav-link' to="/">Home</Link>
+                  <Link className='nav-link' to="/">Artikel</Link>
+                  <Link className='nav-link' to="/cart">
+                     <CartLink />
+                  </Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
                         <DropdownSwitch labelName='Dark mode' />
