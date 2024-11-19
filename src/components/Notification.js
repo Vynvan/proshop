@@ -6,10 +6,8 @@ export default function Notification({ className, notification }) {
    const [ messageType, setMessageType ] = useState('danger');
 
    useEffect(() => {
-      if (notification && notification.text) setMessage(notification.text);
-      else setMessage(notification ?? '');
-      if (notification && notification.type) setMessageType(notification.type);
-      else setMessageType('danger');
+      setMessage(notification?.text ?? '');
+      setMessageType(notification?.type ?? 'danger');
    }, [notification]);
 
    useEffect(() => {
@@ -20,7 +18,7 @@ export default function Notification({ className, notification }) {
 
    return (
       <>
-         {message && <Alert className={(className ? className : '') + 'text-center'} variant={messageType}>{message}</Alert>}
+         {message && <Alert className={(className ? className + ' ' : '') + 'text-center'} variant={messageType}>{message}</Alert>}
       </>
    );
 }

@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CardProvider } from './hooks/CardProvider';
 import { UserProvider } from './hooks/UserProvider';
+import Address from './pages/Address';
 import Articles from './pages/Articles';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
@@ -31,6 +32,9 @@ function App() {
                <Route element={<ProtectedRoute />}>
                   <Route path="/" element={
                      <Articles />
+                  } />
+                  <Route path='/address' element={
+                     <Address />
                   } />
                   <Route path='/cart' element={
                      <Cart />
