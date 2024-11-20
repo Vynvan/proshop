@@ -7,7 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './hooks/CartProvider';
 import { UserProvider } from './hooks/UserProvider';
 import Address from './pages/Address';
-import Articles from './pages/Articles';
+import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,7 +31,7 @@ function App() {
                } />
                <Route element={<ProtectedRoute />}>
                   <Route path="/" element={
-                     <Articles />
+                        <Products />
                   } />
                   <Route path='/address' element={
                      <Address />

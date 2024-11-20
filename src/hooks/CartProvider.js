@@ -11,22 +11,22 @@ export function CartProvider({ children }) {
       console.log('Dispatch: state:', state, 'action: ', action)
       switch (action.type) {
          case 'ADD':
-            const articleInCart = state.find(item => item.product_id === action.id);
-            if (articleInCart) {
-               articleInCart.quantity += 1;
-               console.log(`${articleInCart.title}: ${articleInCart.quantity}`)
+            const inCart = state.find(item => item.id === action.id);
+            if (inCart) {
+               inCart.quantity += 1;
+               console.log(`${inCart.title}: ${inCart.quantity}`)
                return [...state];
             }
-            else return [...state, { ...action.article, quantity: action.quantity || 1 }];
+            else return [...state, { ...action.product, quantity: action.quantity || 1 }];
          case 'DECREMENT':
-            const articleToDecrement = state.find(item => item.product_id === action.id);
-            if (articleToDecrement && articleToDecrement.quantity > 1) {
-               articleToDecrement.quantity -= 1;
+            const toDecrement = state.find(item => item.id === action.id);
+            if (toDecrement && toDecrement.quantity > 1) {
+               toDecrement.quantity -= 1;
                return [...state];
             }
             else return state;
          case 'REMOVE':
-            return state.filter(item => item.product_id !== action.id);
+            return state.filter(item => item.id !== action.id);
          default:
             console.log('Invalid dispatch!')
             return state;
@@ -39,19 +39,19 @@ export function CartProvider({ children }) {
       else if (user) localStorage.removeItem(`cart-${user.userId}`);
    }, [cart, user]);
 
-   function addArticle(article, quantity) {
-      dispatch({ id: article.product_id, article, quantity, type: 'ADD' });
+   function addToCart(product, quantity) {
+      dispatch({ id: product.id, product, quantity, type: 'ADD' });
    }
 
-   function decrement(article) {
-      dispatch({ id: article.product_id, type: 'DECREMENT' });
+   function decrement({ id }) {
+      dispatch({ id, type: 'DECREMENT' });
    }
 
-   function removeArticle(article) {
-      dispatch({ id: article.product_id, type: 'REMOVE' });
+   function removeFromCart({ id }) {
+      dispatch({ id, type: 'REMOVE' });
    }
 
-   return <CartContext.Provider value={{ cart, addArticle, decrement, removeArticle }}>
+   return <CartContext.Provider value={{ cart, addToCart, decrement, removeFromCart }}>
       {children}
    </CartContext.Provider>;
 };
