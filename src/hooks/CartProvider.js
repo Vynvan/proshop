@@ -3,9 +3,10 @@ import useUser from './UserProvider';
 
 const CartContext = createContext();
 
-export function CardProvider({ children }) {
+export function CartProvider({ children }) {
    const { user } = useUser();
    const initialState = user && localStorage.getItem(`cart-${user.userId}`) ? JSON.parse(localStorage.getItem(`cart-${user.userId}`)) : [];
+   
    const [cart, dispatch] = useReducer((state, action) => {
       console.log('Dispatch: state:', state, 'action: ', action)
       switch (action.type) {

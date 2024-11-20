@@ -1,5 +1,5 @@
 import { Badge } from "react-bootstrap";
-import useCart from "../hooks/CardProvider";
+import useCart from "../hooks/CartProvider";
 
 export default function CartLink() {
    const { cart } = useCart();

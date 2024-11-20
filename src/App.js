@@ -4,7 +4,7 @@ import CardLayout from './components/CardLayout';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
-import { CardProvider } from './hooks/CardProvider';
+import { CartProvider } from './hooks/CartProvider';
 import { UserProvider } from './hooks/UserProvider';
 import Address from './pages/Address';
 import Articles from './pages/Articles';
@@ -15,7 +15,7 @@ import Register from './pages/Register';
 function App() {
    return (
    <UserProvider>
-      <CardProvider>
+      <CartProvider>
          <BrowserRouter>
             <Navigation />
             <Routes>
@@ -43,7 +43,7 @@ function App() {
             </Routes>
             <Footer />
          </BrowserRouter>
-      </CardProvider>
+      </CartProvider>
    </UserProvider>
    );
 }

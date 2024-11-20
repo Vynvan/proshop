@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Accordion, Button, ButtonGroup, Card, Image } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Notification from '../components/Notification';
-import useCart from "../hooks/CardProvider";
+import useCart from "../hooks/CartProvider";
 
 export default function Cart() {
    const { cart, addArticle, decrement, removeArticle } = useCart();

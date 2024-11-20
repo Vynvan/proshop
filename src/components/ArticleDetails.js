@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, ButtonGroup, Card, Col, Image } from "react-bootstrap";
-import useCart from "../hooks/CardProvider";
+import useCart from "../hooks/CartProvider";
 
 export default function ArticleDetails({ article, setSelectedArticle }) {
    const { addArticle } = useCart();

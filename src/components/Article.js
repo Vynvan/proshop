@@ -1,5 +1,5 @@
 import { Button, Card } from 'react-bootstrap';
-import useCart from './../hooks/CardProvider';
+import useCart from './../hooks/CartProvider';
 
 export default function Article({ article, onClick }) {
    const { addArticle } = useCart();
