@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Card, Col, Image } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import useCart from "../hooks/CartProvider";
+import useProducts from "../hooks/ProductProvider";
 
-export default function ProductDetails({ product, setSelectedArticle }) {
+export default function ProductDetails({ setSelectedArticle }) {
    const { addToCart } = useCart();
+   const { id } = useParams();
+   const { detailedProducts, getDetailed } = useProducts();
+   const [product, setProduct] = useState({ title: '', text: '', price: '', image: '2922280_27002.jpg' });
    const [ count, setCount ] = useState(1);
+
+   useEffect(() => {
+      console.log(detailedProducts[id])
+      if (detailedProducts[id])
+         setProduct(detailedProducts[id]);
+      else {
+         const preview = getDetailed(id);
+         if (preview) setProduct(preview);
+      }
+   }, [id, detailedProducts, getDetailed]);
 
    function decrement() {
       if (count > 1) setCount(count - 1);

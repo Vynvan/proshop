@@ -8,9 +8,10 @@ import { CartProvider } from './hooks/CartProvider';
 import { UserProvider } from './hooks/UserProvider';
 import { ProductProvider } from './hooks/ProductProvider';
 import Address from './pages/Address';
-import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+import Products from './pages/Products';
+import ProductDetails from './pages/ProductDetails';
 import Register from './pages/Register';
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
                      <Route path='/cart' element={
                         <Cart />
                      } />
+                     <Route path='/:id' element={
+                        <ProductDetails />
+                     } />
+
                   </Route>
                </Routes>
                <Footer />
