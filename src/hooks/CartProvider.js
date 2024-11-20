@@ -8,13 +8,11 @@ export function CartProvider({ children }) {
    const initialState = user && localStorage.getItem(`cart-${user.userId}`) ? JSON.parse(localStorage.getItem(`cart-${user.userId}`)) : [];
    
    const [cart, dispatch] = useReducer((state, action) => {
-      console.log('Dispatch: state:', state, 'action: ', action)
       switch (action.type) {
          case 'ADD':
             const inCart = state.find(item => item.id === action.id);
             if (inCart) {
                inCart.quantity += 1;
-               console.log(`${inCart.title}: ${inCart.quantity}`)
                return [...state];
             }
             else return [...state, { ...action.product, quantity: action.quantity || 1 }];
@@ -28,13 +26,11 @@ export function CartProvider({ children }) {
          case 'REMOVE':
             return state.filter(item => item.id !== action.id);
          default:
-            console.log('Invalid dispatch!')
             return state;
       }
    }, initialState);
 
    useEffect(() => {
-      console.log('UseEffect Cardprovider: ', cart);
       if (user && cart) localStorage.setItem(`cart-${user.userId}`, JSON.stringify(cart));
       else if (user) localStorage.removeItem(`cart-${user.userId}`);
    }, [cart, user]);

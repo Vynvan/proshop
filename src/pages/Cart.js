@@ -35,7 +35,7 @@ export default function Cart() {
          <Notification notification={notification} className={"m-md-3 m-2"} />
          <Accordion activeKey={activeKey} className="mx-1 p-md-3 p-2">
             {cart.map(product => (
-               <Accordion.Item className="cart-item border-0" eventKey={product.product_id}>
+               <Accordion.Item className="cart-item border-0" eventKey={product.product_id} key={product.id}>
                   <Card className="flex-row align-items-center flex-0-0 m-0">
                      <span className="title flex-grow-1 px-3" onClick={() => setActiveKey(activeKey === product.product_id ? null : product.product_id)}>
                         {product.title}
