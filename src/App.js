@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './hooks/CartProvider';
 import { UserProvider } from './hooks/UserProvider';
+import { ProductProvider } from './hooks/ProductProvider';
 import Address from './pages/Address';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
@@ -15,35 +16,37 @@ import Register from './pages/Register';
 function App() {
    return (
    <UserProvider>
-      <CartProvider>
-         <BrowserRouter>
-            <Navigation />
-            <Routes>
-               <Route path="/login" element={
-                  <CardLayout>
-                     <Login />
-                  </CardLayout>
-               } />
-               <Route path="/register" element={
-                  <CardLayout>
-                     <Register />
-                  </CardLayout>
-               } />
-               <Route element={<ProtectedRoute />}>
-                  <Route path="/" element={
+      <ProductProvider>
+         <CartProvider>
+            <BrowserRouter>
+               <Navigation />
+               <Routes>
+                  <Route path="/login" element={
+                     <CardLayout>
+                        <Login />
+                     </CardLayout>
+                  } />
+                  <Route path="/register" element={
+                     <CardLayout>
+                        <Register />
+                     </CardLayout>
+                  } />
+                  <Route element={<ProtectedRoute />}>
+                     <Route path="/" element={
                         <Products />
-                  } />
-                  <Route path='/address' element={
-                     <Address />
-                  } />
-                  <Route path='/cart' element={
-                     <Cart />
-                  } />
-               </Route>
-            </Routes>
-            <Footer />
-         </BrowserRouter>
-      </CartProvider>
+                     } />
+                     <Route path='/address' element={
+                        <Address />
+                     } />
+                     <Route path='/cart' element={
+                        <Cart />
+                     } />
+                  </Route>
+               </Routes>
+               <Footer />
+            </BrowserRouter>
+         </CartProvider>
+      </ProductProvider>
    </UserProvider>
    );
 }
