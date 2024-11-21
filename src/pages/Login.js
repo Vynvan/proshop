@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LogoutToggleButton from '../components/LogoutToggleButton';
 import Notification from '../components/Notification';
 import useUser from '../hooks/UserProvider';
+import useQueryParam from '../hooks/useQueryParam';
 
 function Login() {
+   const [forbidden] = useQueryParam('forbidden');
+   const [notification, setNotification] = useState('');
    const { user, setUser } = useUser();
-   const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
+
+   useEffect(() => {
+      if (forbidden) {
+         setUser(null);
+         setNotification('Session abgelaufen. Bitte erneut einloggen!');
+      }
+   }, [forbidden]);
+
 
    const handleLogin = async () => {
       const username = document.forms['login']['username'].value;
@@ -28,7 +38,8 @@ function Login() {
                text: 'Sie haben sich erfolgreich eingeloggt. Sie werden gleich weitergeleitet...',
                type: 'success'
             });
-            setTimeout(() => navigate('/'), 3000);
+            if (forbidden) navigate(-1);
+            else setTimeout(() => navigate('/'), 3000);
          } else {
             setNotification(message ?? 'Login fehlgeschlagen!');
          }
