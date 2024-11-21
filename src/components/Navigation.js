@@ -22,7 +22,10 @@ function Navigation() {
                   </Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
-                        <DropdownSwitch labelName='Dark mode' />
+                     <NavDropdown.Item>
+                        <Link className='nav-link p-0' to="/address">Adressen</Link>
+                     </NavDropdown.Item>
+                     <DropdownSwitch labelName='Dark mode' />
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
                      </NavDropdown>
