@@ -13,7 +13,7 @@ export default function useFetch() {
 
    useEffect(() => {
       const doFetch = async () => {
-         if (!url) return;
+         if (!url || !user) return;
 
          try {
             setLoading(true);

@@ -1,20 +1,28 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from './useFetch';
+import useUser from './UserProvider';
 
 const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
-   const [detailedProducts, setDetailedProducts] = useState([]);
+   const [detailedProducts, setDetailedProducts] = useState({});
    const [limit, setLimit] = useState(10);
    const [loadedPage, setLoadedPage] = useState(0);
    const [productPages, setProductPages] = useState([]);
    const { error, fetchUrl, loading, result } = useFetch();
+   const { user } = useUser();
 
    useEffect(() => {
+      if (!user) {
+         setProductPages([]);
+         setDetailedProducts([]);
+         return;
+      };
+      
       let productPage = productPages.find((pageObject => pageObject.page === loadedPage));
       if (productPage) return;
       fetchUrl(`products?page=${loadedPage}&limit=${limit}`);
-   }, [loadedPage, fetchUrl]);
+   }, [loadedPage, fetchUrl, user]);
 
    useEffect(() => {
       if (result?.products) {
