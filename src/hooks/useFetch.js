@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useUser from './UserProvider';
 
 export default function useFetch() {
+   const navigate = useNavigate();
    const { user } = useUser();
    const [error, setError] = useState(null);
    const [loading, setLoading] = useState(false);
+   const [method, setMethod] = useState('GET');
    const [result, setResult] = useState(null);
    const [url, setUrl] = useState('');
 
@@ -14,19 +17,26 @@ export default function useFetch() {
 
          try {
             setLoading(true);
-            const res = await fetch(`${process.env.REACT_APP_APIURL}/${url}`, {
+            const response = await fetch(`${process.env.REACT_APP_APIURL}/${url}`, {
                headers: {
                   Authorization: `Bearer ${user.token}`,
                   'Content-Type': 'application/json'
                },
-               method: 'GET',
+               method,
             });
-            const asJson = await res.json();
-            if (asJson?.message) setError(asJson);
-            else setResult(asJson);
+
+            const asJson = await response.json();
+            if(response.ok) {
+               setResult(asJson);
+            }
+            else if (response.status === 403) {
+               navigate('/login?forbidden=true');
+            }
+            else if (asJson?.message) setError(asJson);
          }
          catch(err) {
             setError(err);
+            console.log('### Fetch error:', err)
          }
          finally {
             setLoading(false);
@@ -35,5 +45,10 @@ export default function useFetch() {
       doFetch();
    }, [url]);
 
-   return { error, loading, result, setUrl };
+   function fetchUrl(url, method='GET') {
+      setMethod(method);
+      setUrl(url);
+   }
+
+   return { error, loading, result, fetchUrl };
 }

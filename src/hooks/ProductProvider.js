@@ -4,17 +4,17 @@ import useFetch from './useFetch';
 const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
+   const [detailedProducts, setDetailedProducts] = useState([]);
    const [limit, setLimit] = useState(10);
    const [loadedPage, setLoadedPage] = useState(0);
    const [productPages, setProductPages] = useState([]);
-   const [detailedProducts, setDetailedProducts] = useState([]);
-   const { error, loading, result, setUrl } = useFetch();
+   const { error, fetchUrl, loading, result } = useFetch();
 
    useEffect(() => {
       let productPage = productPages.find((pageObject => pageObject.page === loadedPage));
       if (productPage) return;
-      setUrl(`products?page=${loadedPage}&limit=${limit}`);
-   }, [loadedPage, setUrl]);
+      fetchUrl(`products?page=${loadedPage}&limit=${limit}`);
+   }, [loadedPage, fetchUrl]);
 
    useEffect(() => {
       if (result?.products) {
@@ -34,10 +34,10 @@ export function ProductProvider({ children }) {
       else {
          const containingPage = productPages.find(pp => pp.items.find(p => p.id === id) !== null);
          if (containingPage) {
-            setUrl(`products/${id}?update=true`);
-            return containingPage.items.find(p => p.id === id);
+            fetchUrl(`products/${id}?update=true`);
+            return { ...containingPage.items.find(p => p.id === id), preview: true };
          }
-         else setUrl(`products/${id}`);
+         else fetchUrl(`products/${id}`);
       }
       return null;
    }

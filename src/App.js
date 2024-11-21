@@ -16,10 +16,10 @@ import Register from './pages/Register';
 
 function App() {
    return (
-   <UserProvider>
-      <ProductProvider>
-         <CartProvider>
-            <BrowserRouter>
+   <BrowserRouter>
+      <UserProvider>
+         <ProductProvider>
+            <CartProvider>
                <Navigation />
                <Routes>
                   <Route path="/login" element={
@@ -49,10 +49,10 @@ function App() {
                   </Route>
                </Routes>
                <Footer />
-            </BrowserRouter>
-         </CartProvider>
-      </ProductProvider>
-   </UserProvider>
+            </CartProvider>
+         </ProductProvider>
+      </UserProvider>
+   </BrowserRouter>
    );
 }
 
