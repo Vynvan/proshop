@@ -10,21 +10,13 @@ export function ProductProvider({ children }) {
    const [page, setPage] = useState(0);
    const [productPages, setProductPages] = useState([]);
    const { error, fetchUrl, loading, result } = useFetch();
-   const { user } = useUser();
 
    useEffect(() => {
-      if (!user) {
-         setProductPages([]);
-         setDetailedProducts([]);
-         return;
-      };
-      
-      if (page !== 0) {
+      if (page > 0) {
          let productPage = productPages.find((pageObject => pageObject.page === page));
-         if (productPage) return;
-         fetchUrl(`products?page=${page}&limit=${limit}`);
+         if (!productPage) fetchUrl(`products?page=${page}&limit=${limit}`);
       }
-   }, [page, fetchUrl, user]);
+   }, [page, fetchUrl]);
 
    useEffect(() => {
       console.log('ProductProvider response:', result)

@@ -17,7 +17,7 @@ function Login() {
          setUser(null);
          setNotification('Session abgelaufen. Bitte erneut einloggen!');
       }
-   }, [forbidden]);
+   }, [forbidden, setUser]);
 
 
    const handleLogin = async () => {

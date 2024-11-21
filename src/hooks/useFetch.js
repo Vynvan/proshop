@@ -44,7 +44,7 @@ export default function useFetch() {
          }
       }
       doFetch();
-   }, [url]);
+   }, [navigate, url, user]);
 
    function fetchUrl(url, method='GET') {
       setMethod(method);
