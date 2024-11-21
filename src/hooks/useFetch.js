@@ -25,8 +25,9 @@ export default function useFetch() {
                method,
             });
 
-            const asJson = await response.json();
+            const asJson = await response?.json();
             if(response.ok) {
+               setError(null);
                setResult(asJson);
             }
             else if (response.status === 403) {
