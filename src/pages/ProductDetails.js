@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import useCart from "../hooks/CartProvider";
 import useProducts from "../hooks/ProductProvider";
 
-export default function ProductDetails({ setSelectedArticle }) {
+export default function ProductDetails() {
    const { addToCart } = useCart();
    const { id } = useParams();
    const { detailedProducts, getDetailed } = useProducts();
@@ -29,12 +29,11 @@ export default function ProductDetails({ setSelectedArticle }) {
       <Card className="details mx-1 p-md-3 p-2">
          <Card.Header className="d-flex justify-content-between">
             <Card.Title>{product.title}</Card.Title>
-            <Button variant="close" onClick={() => setSelectedArticle(null)} aria-label="Close" />
          </Card.Header>
          <Card.Body className='row'>
             <Image src={product.image} srcSet="2922280_27002.jpg" alt={product.title} 
-               className="mb-2 col-md-6" fluid />
-            <Col sm="6"className='px-2 py-4'>
+               className="mb-2 col-md-6 col-lg-5 col-xl-4" fluid />
+            <Col sm="12" md="6" lg="7" xl="8" className='px-2 py-4'>
                <Card.Title >{product.title}</Card.Title>
                <p>Preis: {product.price} €</p>
             </Col>
