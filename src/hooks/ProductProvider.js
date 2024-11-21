@@ -7,7 +7,7 @@ const ProductContext = createContext();
 export function ProductProvider({ children }) {
    const [detailedProducts, setDetailedProducts] = useState({});
    const [limit, setLimit] = useState(10);
-   const [loadedPage, setLoadedPage] = useState(0);
+   const [page, setPage] = useState(0);
    const [productPages, setProductPages] = useState([]);
    const { error, fetchUrl, loading, result } = useFetch();
    const { user } = useUser();
@@ -19,22 +19,28 @@ export function ProductProvider({ children }) {
          return;
       };
       
-      let productPage = productPages.find((pageObject => pageObject.page === loadedPage));
-      if (productPage) return;
-      fetchUrl(`products?page=${loadedPage}&limit=${limit}`);
-   }, [loadedPage, fetchUrl, user]);
+      if (page !== 0) {
+         let productPage = productPages.find((pageObject => pageObject.page === page));
+         if (productPage) return;
+         fetchUrl(`products?page=${page}&limit=${limit}`);
+      }
+   }, [page, fetchUrl, user]);
 
    useEffect(() => {
+      console.log('ProductProvider response:', result)
       if (result?.products) {
          const { limit, page, products } = result;
          const productPage = { limit, page, items: products };
          setProductPages(prev => [...prev, productPage]);
       }
-      if (result?.product) {
+      else if (result?.product) {
          const { product } = result;
-         setDetailedProducts((prev) => prev[product.id] = { ...prev[product.id], ...product });
+         setDetailedProducts((prev) => {
+            const combined = { ...prev[product.id], ...product };
+            prev[product.id] = { ...prev[product.id], ...product }
+            return { ...prev, [product.id]: combined };
+         });
       }
-      console.log('response:', result)
    }, [result]);
 
    const getDetailed = (id) => {
@@ -50,7 +56,7 @@ export function ProductProvider({ children }) {
       return null;
    }
 
-   return <ProductContext.Provider value={{ detailedProducts, error, getDetailed, loading, productPages, setLoadedPage }}>{children}</ProductContext.Provider>;
+   return <ProductContext.Provider value={{ detailedProducts, error, getDetailed, loading, productPages, setPage }}>{children}</ProductContext.Provider>;
 };
 
 export default function useProducts () {

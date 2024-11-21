@@ -12,7 +12,7 @@ export default function ProductDetails() {
    const [ count, setCount ] = useState(1);
 
    useEffect(() => {
-      console.log(detailedProducts[id])
+      console.log('ProductDetails for', id, ':', detailedProducts[id])
       if (detailedProducts[id])
          setProduct(detailedProducts[id]);
       else {

@@ -6,8 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Products() {
    const navigate = useNavigate();
-   const { error, productPages } = useProducts();
+   const { error, productPages, setPage } = useProducts();
    const [products, setProducts] = useState([]);
+
+   useEffect(() => {
+      setPage(1);
+   }, [setPage]);
    
    useEffect(() => {
       if (!error) setProducts(productPages.map(pp => pp.items).reduce((prev, curr) => [...prev, ...curr], []));
