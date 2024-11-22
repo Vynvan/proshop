@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Accordion, Button, ButtonGroup, Card, Image } from "react-bootstrap";
+import { Accordion, Button, ButtonGroup, Card, Container, Image } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Notification from '../components/Notification';
 import useCart from "../hooks/CartProvider";
@@ -31,13 +31,13 @@ export default function Cart() {
    }
 
    return (
-      <>
-         <Notification notification={notification} className={"m-md-3 m-2"} />
-         <Accordion activeKey={activeKey} className="mx-1 p-md-3 p-2">
+      <Container  fluid='md'>
+         <Notification notification={notification} />
+         <Accordion activeKey={activeKey}>
             {cart.map(product => (
-               <Accordion.Item className="cart-item border-0" eventKey={product.product_id} key={product.id}>
+               <Accordion.Item className="cart-item border-0" eventKey={product.id} key={product.id}>
                   <Card className="flex-row align-items-center flex-0-0 m-0">
-                     <span className="title flex-grow-1 px-3" onClick={() => setActiveKey(activeKey === product.product_id ? null : product.product_id)}>
+                     <span className="title flex-grow-1 px-3" onClick={() => setActiveKey(activeKey === product.id ? null : product.id)}>
                         {product.title}
                      </span>
                      <ButtonGroup className="mx-2">
@@ -47,7 +47,7 @@ export default function Cart() {
                      </ButtonGroup>
                      <Button className="mx-2" onClick={() => removeFromCart(product)}>Entfernen</Button>
                      <span className="price text-end">{(product.price * product.quantity).toFixed(2)} €</span>
-                     <Accordion.Button>Details&nbsp;</Accordion.Button>
+                     <Accordion.Button onClick={() => setActiveKey(activeKey === product.id ? null : product.id)}>Details&nbsp;</Accordion.Button>
                   </Card>
                   <Accordion.Body className="p-2">
                      <Image src={product.image} srcSet="2922280_27002.jpg" alt={product.title} 
@@ -65,6 +65,6 @@ export default function Cart() {
             </Card>}
             {noProducts && <p className="align-self-center text-center">Sie haben noch keine Artikel im Warenkorb.</p>}
          </Accordion>
-      </>
+      </Container>
    );
 }
