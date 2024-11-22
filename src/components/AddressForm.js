@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
 
-export default function AddressForm({ addressToEdit, saveAddress }) {
-   const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', defaultAddress: false };
+export default function AddressForm({ addressToEdit, formDefaults, saveAddress }) {
    const [formData, setFormData] = useState(formDefaults);
 
    useEffect(() => {
-      setFormData(addressToEdit ? { ...addressToEdit, defaultAddress: addressToEdit.isDefault } : formDefaults);
+      setFormData(addressToEdit ? { ...addressToEdit } : formDefaults);
+      console.log('AddressForm effect:', addressToEdit)
    }, [addressToEdit]);
 
    const handleInputChange = (e) => {
@@ -17,9 +17,9 @@ export default function AddressForm({ addressToEdit, saveAddress }) {
    };
 
    return (
-      <>
-         <h3>Adresse bearbeiten</h3>
-         <Form onSubmit={(e) => saveAddress(e, formData)}>
+      <Card className='my-5 p-2 p-sm-3 p-md-4 justify-content-center text-start shadow'>
+         <Card.Title>Adresse bearbeiten</Card.Title>
+         <Form onSubmit={(e) => saveAddress ? saveAddress(e, formData) : null}>
             <Form.Group className="my-3">
                <Form.Label>Bezeichnung (zB. Hauptadresse):</Form.Label>
                <Form.Control
@@ -89,10 +89,11 @@ export default function AddressForm({ addressToEdit, saveAddress }) {
                   required
                />
             </Form.Group>
-            <Form.Group className="d-flex justify-content-center">
+            <Form.Group className="d-flex justify-content-around">
                <Button type="submit">Adresse speichern</Button>
+               <Button onClick={(e) => saveAddress(e, null)}>Abbrechen</Button>
             </Form.Group>
          </Form>
-      </>
+      </Card>
    );
 }
