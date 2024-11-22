@@ -47,7 +47,7 @@ export default function useFetch() {
          }
       }
       doFetch();
-   }, [body, method, navigate, url, user]);
+   }, [body, navigate, url, user]);
 
    const fetchUrl = (url, method='GET', body=undefined) => {
       console.log('Start fetching:', url, method, body)
