@@ -13,9 +13,9 @@ export default function useFetch() {
    const [url, setUrl] = useState('');
 
    useEffect(() => {
-      const doFetch = async () => {
-         if (!url || !user) return;
+      if (!url || !user) return;
 
+      const doFetch = async () => {
          try {
             setLoading(true);
             const response = await fetch(`${process.env.REACT_APP_APIURL}/${url}`, {
@@ -47,11 +47,11 @@ export default function useFetch() {
          }
       }
       doFetch();
-   }, [body, navigate, url, user]);
+   }, [navigate, url, user]);
 
-   const fetchUrl = (url, method='GET', body=undefined) => {
-      console.log('Start fetching:', url, method, body)
-      if (body) setBody(JSON.stringify(body));
+   const fetchUrl = (url, method='GET', newBody=undefined) => {
+      console.log('Start fetching:', url, method, newBody)
+      if (newBody) setBody(JSON.stringify(newBody));
       setMethod(method);
       setUrl(url);
    };

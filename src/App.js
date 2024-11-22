@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Register from './pages/Register';
+import Order from './pages/Order';
 
 function App() {
    return (
@@ -41,6 +42,9 @@ function App() {
                      } />
                      <Route path='/cart' element={
                         <Cart />
+                     } />
+                     <Route path='/order' element= {
+                        <Order />
                      } />
                      <Route path='/:id' element={
                         <ProductDetails />

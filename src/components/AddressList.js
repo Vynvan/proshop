@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Accordion, Button, Card, ToggleButton } from 'react-bootstrap';
+import { Accordion, Button, Card } from 'react-bootstrap';
 
 export default function AddressList({ addresses, setEdit, toggleDefault }) {
    const [activeKey, setActiveKey] = useState(null);
@@ -26,10 +26,7 @@ export default function AddressList({ addresses, setEdit, toggleDefault }) {
                   <p>{address.postal} {address.city}</p>
                   <p>{address.state} {address.country}</p>
                   <div className='d-flex justify-content-around'>
-                     <ToggleButton className="" id="toggle-check" type="checkbox" variant="outline-primary" checked={address.isDefault}
-                     onChange={(e) => toggleDefault ? toggleDefault(address) : null}>
-                        Bevorzugte Adresse
-                     </ToggleButton>
+                     {address.isDefault === 0 && <Button onClick={() => toggleDefault ? toggleDefault({ id: activeKey }) : null}>Bevorzugen</Button>}
                      <Button onClick={() => setEdit ? setEdit(address): null}>Bearbeiten</Button>
                   </div>
                </Accordion.Body>
