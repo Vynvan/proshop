@@ -39,6 +39,10 @@ nav .bi {
   margin-top: -1px;
 }
 
+nav .dropdown-item.nav-link,nav.navbar-expand-sm .dropdown-item.nav-link {
+  padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+}
+
 .accordion-item .accordion-button {
   width: fit-content;
 }

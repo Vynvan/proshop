@@ -11,7 +11,7 @@ function Navigation() {
 
    return (
       <Navbar as="nav" expand="sm" className="mb-4 bg-body-tertiary sticky-top card shadow complete-width">
-         <Container>
+         <Container fluid='md'>
             <Navbar.Brand href="/">ProShop</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -22,9 +22,7 @@ function Navigation() {
                   </Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
-                     <NavDropdown.Item>
-                        <Link className='nav-link p-0' to="/address">Adressen</Link>
-                     </NavDropdown.Item>
+                     <NavDropdown.Item as={Link} className='nav-link' to="/address">Adressen</NavDropdown.Item>
                      <DropdownSwitch labelName='Dark mode' />
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
