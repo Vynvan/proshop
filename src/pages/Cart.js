@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Accordion, Button, ButtonGroup, Card, Container, Image } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import Notification from '../components/Notification';
 import useCart from "../hooks/CartProvider";
 
 export default function Cart() {
    const { cart, addToCart, decrement, removeFromCart } = useCart();
    const noProducts = cart === undefined || cart === null || cart.length === 0;
    const [activeKey, setActiveKey] = useState(null);
-   const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
 
    if (noProducts) return (
@@ -19,7 +17,6 @@ export default function Cart() {
 
    return (
       <Container  fluid='md'>
-         <Notification notification={notification} />
          <Accordion activeKey={activeKey}>
             {cart.map(product => (
                <Accordion.Item className="cart-item border-0" eventKey={product.id} key={product.id}>
