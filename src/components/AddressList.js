@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Accordion, Button, Card } from 'react-bootstrap';
+import AddressDisplay from './AddressDisplay';
 
 export default function AddressList({ addresses, setEdit, toggleDefault }) {
    const [activeKey, setActiveKey] = useState(null);
@@ -22,9 +23,7 @@ export default function AddressList({ addresses, setEdit, toggleDefault }) {
                   <Accordion.Button onClick={() => setActiveKey(activeKey === address.id ? null : address.id)}>Details&nbsp;</Accordion.Button>
                </Card>
                <Accordion.Body className="p-3">
-                  <p>{address.street}</p>
-                  <p>{address.postal} {address.city}</p>
-                  <p>{address.state} {address.country}</p>
+                  <AddressDisplay address={address} />
                   <div className='d-flex justify-content-around'>
                      {address.isDefault === 0 && <Button onClick={() => toggleDefault ? toggleDefault({ id: activeKey }) : null}>Bevorzugen</Button>}
                      <Button onClick={() => setEdit ? setEdit(address): null}>Bearbeiten</Button>
