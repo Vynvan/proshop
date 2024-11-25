@@ -26,7 +26,7 @@ export default function ProductDetails() {
    }
 
    return (
-      <Card className="details mx-1 p-md-3 p-2">
+      <Card className="detail mx-2s mx-md-3 mx-lg-4">
          <Card.Header className="d-flex justify-content-between">
             <Card.Title>{product.title}</Card.Title>
          </Card.Header>

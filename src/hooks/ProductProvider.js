@@ -32,8 +32,9 @@ export function ProductProvider({ children }) {
          else if (result.product) {
             const { product } = result;
             setDetailedProducts((prev) => {
+               console.log('ProductProvider combines details:', prev[product.id], product)
                const combined = { ...prev[product.id], ...product };
-               prev[product.id] = { ...prev[product.id], ...product }
+               prev[product.id] = { ...prev[product.id], ...product };
                return { ...prev, [product.id]: combined };
             });
          }
@@ -43,12 +44,13 @@ export function ProductProvider({ children }) {
    }, [neededPage, result]);
 
    const getDetailed = (id) => {
-      if (detailedProducts?.[id]) return detailedProducts[id];
-      else {
-         const containingPage = productPages.find(pp => pp.items.find(p => p.id === id) !== null);
-         if (containingPage) {
+      if (detailedProducts && detailedProducts[id]) return detailedProducts[id];
+      else if (productPages) {
+         const product = productPages.map(pp => pp.items).reduce((prev, items) => prev === null ? items.find(p => p.id === id) : prev, null);
+         if (product) {
             fetchUrl(`products/${id}?update=true`);
-            return { ...containingPage.items.find(p => p.id === id), preview: true };
+            setDetailedProducts(prev => ({ ...prev, [id]: product }));
+            return product;
          }
          else fetchUrl(`products/${id}`);
       }
