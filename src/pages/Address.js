@@ -10,7 +10,7 @@ import AddressForm from '../components/AddressForm';
 export default function Address({ setVisible }) {
    const { error, fetchUrl, loading, result } = useFetch();
    const { user } = useUser();
-   const { addresses, setAddresses, reload } = useAddresses();
+   const { addresses, error: errorAddresses, loading: loadingAddresses, setAddresses, reload } = useAddresses();
    const [address, setAddress] = useState(null);
    const [notification, setNotification] = useState('');
    const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', isDefault: 0 };

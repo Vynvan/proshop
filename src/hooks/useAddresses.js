@@ -18,5 +18,5 @@ export default function useAddresses() {
 
    const reload = () => fetchUrl('address');
 
-   return { addresses, setAddresses, reload };
+   return { addresses, error, loading, setAddresses, reload };
 };
