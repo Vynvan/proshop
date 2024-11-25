@@ -6,7 +6,6 @@ export default function Notification({ className, notification }) {
    const [ messageType, setMessageType ] = useState('danger');
 
    useEffect(() => {
-      console.log('New Notification:', notification)
       if (notification) {
          setMessage(notification.length ? notification : notification.text ?? '');
          setMessageType(notification.type ?? 'danger');

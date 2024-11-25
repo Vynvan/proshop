@@ -41,7 +41,6 @@ function Login() {
             if (forbidden) navigate(-1);
             else setTimeout(() => navigate('/'), 3000);
          } else {
-            console.log(message)
             setNotification(message ?? 'Login fehlgeschlagen!');
          }
       } catch (error) {
