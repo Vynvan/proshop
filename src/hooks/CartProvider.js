@@ -16,6 +16,8 @@ export function CartProvider({ children }) {
                return [...state];
             }
             else return [...state, { ...action.product, quantity: action.quantity || 1 }];
+         case 'CLEAR':
+            return [];
          case 'DECREMENT':
             const toDecrement = state.find(item => item.id === action.id);
             if (toDecrement && toDecrement.quantity > 1) {
@@ -39,6 +41,10 @@ export function CartProvider({ children }) {
       dispatch({ id: product.id, product, quantity, type: 'ADD' });
    }
 
+   function clearCart() {
+      dispatch({ type: 'CLEAR' });
+   }
+
    function decrement({ id }) {
       dispatch({ id, type: 'DECREMENT' });
    }
@@ -47,7 +53,7 @@ export function CartProvider({ children }) {
       dispatch({ id, type: 'REMOVE' });
    }
 
-   return <CartContext.Provider value={{ cart, addToCart, decrement, removeFromCart }}>
+   return <CartContext.Provider value={{ cart, addToCart, clearCart, decrement, removeFromCart }}>
       {children}
    </CartContext.Provider>;
 };

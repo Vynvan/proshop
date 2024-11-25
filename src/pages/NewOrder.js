@@ -7,7 +7,7 @@ import useFetch from '../hooks/useFetch';
 import AddressSelect from "../components/AddressSelect";
 
 export default function Order() {
-   const { cart } = useCart();
+   const { cart, clearCart } = useCart();
    const { error, fetchUrl, loading, result } = useFetch();
    const [address, setAddress] = useState(null);
    const [order, setOrder] = useState(null);
@@ -23,7 +23,10 @@ export default function Order() {
    }, [address, setOrder]);
 
    useEffect(() => {
-      if (result?.orderId) navigate(`/order/${result.orderId}`);
+      if (result?.orderId) {
+         clearCart();
+         navigate(`/order/${result.orderId}`);
+      };
    }, [result]);
 
    const buy = async () => {
