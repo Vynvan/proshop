@@ -11,24 +11,11 @@ export default function Cart() {
    const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
 
-   const buy = async () => {
-      try {
-         const response = await fetch(`${process.env.REACT_APP_APIURL}/order`, {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: JSON.stringify({ cart }),
-         });
-
-         const { message, success } = await response.json();
-         if (response.ok && success === 1) {
-            navigate(`/order&id=${response.id}`);
-         } else {
-            setNotification(message ?? 'Bestellung fehlgeschlagen!');
-         }
-      } catch (error) {
-         setNotification('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
-      }
-   }
+   if (noProducts) return (
+      <Container  fluid='md'>
+         <p className="align-self-center text-center">Sie haben noch keine Artikel im Warenkorb.</p>
+      </Container>
+   );
 
    return (
       <Container  fluid='md'>
@@ -56,14 +43,13 @@ export default function Cart() {
                   </Accordion.Body>
                </Accordion.Item>
             ))}
-            {!noProducts && <Card className="accordion-footer flex-row align-items-center flex-0-0 m-0">
+            <Card className="accordion-footer flex-row align-items-center flex-0-0 m-0">
                <span className="flex-grow-1 px-3 fw-bold">Gesamtpreis</span>
                <span className="price text-end fw-bold">
                   {(cart.map(article => article.price * article.quantity).reduce((prev, curr) => prev + curr)).toFixed(2)} €
                </span>
-               <Button className="mx-3 my-2 px-3" onClick={() => buy()}>Kaufen</Button>
-            </Card>}
-            {noProducts && <p className="align-self-center text-center">Sie haben noch keine Artikel im Warenkorb.</p>}
+               <Button className="mx-3 my-2 px-3" onClick={() => navigate('/neworder')}>Bestellen</Button>
+            </Card>
          </Accordion>
       </Container>
    );
