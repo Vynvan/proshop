@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Container, FormSelect } from "react-bootstrap";
 import ProductList from '../components/ProductList';
 import useCart from "../hooks/CartProvider";
@@ -10,6 +11,7 @@ export default function Order() {
    const { error, fetchUrl, loading, result } = useFetch();
    const [address, setAddress] = useState(null);
    const [order, setOrder] = useState(null);
+   const navigate = useNavigate();
    const noProducts = cart === undefined || cart === null || cart.length === 0;
 
    useEffect(() => {
@@ -21,9 +23,8 @@ export default function Order() {
    }, [address, setOrder]);
 
    useEffect(() => {
-      if (result?.order) setOrder(result.order);
-      console.log(result?.order)
-   }, [result, setOrder]);
+      if (result?.orderId) navigate(`/order/${result.orderId}`);
+   }, [result]);
 
    const buy = async () => {
       const cleanProducts = order.products.map(p => ({ id: p.id, quantity: p.quantity }));
