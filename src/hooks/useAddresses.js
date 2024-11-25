@@ -8,9 +8,8 @@ export default function useAddresses() {
    const [addresses, setAddresses] = useState([]);
 
    useEffect(() => {
-      console.log('useAddresses fetching')
       if (user) fetchUrl('address');
-   }, [addresses, user]);
+   }, [addresses, fetchUrl, user]);
 
    useEffect(() => {
       if (result?.addresses) setAddresses(result.addresses);

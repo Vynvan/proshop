@@ -31,8 +31,9 @@ export default function Address({ setVisible }) {
    }, [result, setAddress, setAddresses]);
 
    useEffect(() => {
-      if (error) setNotification(error.message ?? 'Abrufen der Adressen fehlgeschlagen.');
-   }, [error, setNotification]);
+      if (errorAddresses) setNotification(errorAddresses.message ?? 'Abrufen der Adressen fehlgeschlagen. Bitte erneut versuchen.');
+      else if (error) setNotification(error.message ?? 'Kommunikation mit dem Server fehlgeschlagen. Bitte erneut versuchen.')
+   }, [error, errorAddresses, setNotification]);
 
    const handleSaveAddress = (e, formData) => {
       e.preventDefault();
