@@ -6,8 +6,11 @@ export default function Notification({ className, notification }) {
    const [ messageType, setMessageType ] = useState('danger');
 
    useEffect(() => {
-      setMessage(notification?.text ?? '');
-      setMessageType(notification?.type ?? 'danger');
+      console.log('New Notification:', notification)
+      if (notification) {
+         setMessage(notification.length ? notification : notification.text ?? '');
+         setMessageType(notification.type ?? 'danger');
+      }
    }, [notification]);
 
    useEffect(() => {
@@ -18,7 +21,11 @@ export default function Notification({ className, notification }) {
 
    return (
       <>
-         {message && <Alert className={(className ? className + ' ' : '') + 'text-center'} variant={messageType}>{message}</Alert>}
+         {message &&
+         <Alert className={(className ? className + ' ' : '') + 'my-3 align-self-center text-center'} 
+         variant={messageType}>
+            {message}
+         </Alert>}
       </>
    );
 }
