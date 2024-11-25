@@ -46,38 +46,40 @@ export default function Register() {
    };
 
    return (
-      <Container fluid className="component my-3 justify-content-center">
-         <h3>{user ? 'Herzlich willkommen!' : 'Bitte alle Felder ausfüllen:'}</h3>
+      <>
          <Notification notification={notification} />
-         <Form name='register'>
-            {!user && (
-               <>
-                  <Form.Group className="my-3">
-                     <Form.Label>Benutzername:</Form.Label>
-                     <Form.Control type="text" name="username" autoComplete='username' required />
-                  </Form.Group>
-                  <Form.Group className="my-3">
-                     <Form.Label>Name:</Form.Label>
-                     <Form.Control type="text" name="name" autoComplete='name' required />
-                  </Form.Group>
-                  <Form.Group className="my-3">
-                     <Form.Label>Email:</Form.Label>
-                     <Form.Control type="email" name="email" autoComplete='email' required />
-                  </Form.Group>
-                  <Form.Group className="my-3">
-                     <Form.Label>Passwort:</Form.Label>
-                     <Form.Control type="password" name="password" autoComplete='current-password' required />
-                  </Form.Group>
-                  <Form.Group className="my-3">
-                     <Form.Label>Passwort bestätigen:</Form.Label>
-                     <Form.Control type="password" name="password2" required />
-                  </Form.Group>
-               </>
-            )}
-            <Form.Group className="d-flex justify-content-around">
-               <LogoutToggleButton loginText={'Registrieren'} onLogin={handleRegistration} setNotification={setNotification} />
-            </Form.Group>
-         </Form>
-      </Container>
+         <Container fluid className="component my-3 justify-content-center">
+            <h3>{user ? 'Herzlich willkommen!' : 'Bitte alle Felder ausfüllen:'}</h3>
+            <Form name='register'>
+               {!user && (
+                  <>
+                     <Form.Group className="my-3">
+                        <Form.Label>Benutzername:</Form.Label>
+                        <Form.Control type="text" name="username" autoComplete='username' required />
+                     </Form.Group>
+                     <Form.Group className="my-3">
+                        <Form.Label>Name:</Form.Label>
+                        <Form.Control type="text" name="name" autoComplete='name' required />
+                     </Form.Group>
+                     <Form.Group className="my-3">
+                        <Form.Label>Email:</Form.Label>
+                        <Form.Control type="email" name="email" autoComplete='email' required />
+                     </Form.Group>
+                     <Form.Group className="my-3">
+                        <Form.Label>Passwort:</Form.Label>
+                        <Form.Control type="password" name="password" autoComplete='current-password' required />
+                     </Form.Group>
+                     <Form.Group className="my-3">
+                        <Form.Label>Passwort bestätigen:</Form.Label>
+                        <Form.Control type="password" name="password2" required />
+                     </Form.Group>
+                  </>
+               )}
+               <Form.Group className="d-flex justify-content-around">
+                  <LogoutToggleButton loginText={'Registrieren'} onLogin={handleRegistration} setNotification={setNotification} />
+               </Form.Group>
+            </Form>
+         </Container>
+      </>
    );
 }

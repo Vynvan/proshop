@@ -41,6 +41,7 @@ function Login() {
             if (forbidden) navigate(-1);
             else setTimeout(() => navigate('/'), 3000);
          } else {
+            console.log(message)
             setNotification(message ?? 'Login fehlgeschlagen!');
          }
       } catch (error) {
@@ -49,28 +50,30 @@ function Login() {
    };
 
    return (
-      <Container fluid className="component my-3 justify-content-center">
-         <h3>{user ? 'Herzlich willkommen!' : 'Bitte einloggen:'}</h3>
+      <>
          <Notification notification={notification} />
-         <Form name='login' onSubmit={handleLogin}>
-            {!user && (
-               <>
-                  <Form.Group className="my-3">
-                     <Form.Label>Benutzername:</Form.Label>
-                     <Form.Control type="text" name="username" autoComplete='username' required />
-                  </Form.Group>
-                  <Form.Group className="my-3">
-                     <Form.Label>Passwort:</Form.Label>
-                     <Form.Control type="password" name="password" autoComplete='current-password' required />
-                  </Form.Group>
-               </>
-            )}
-            <Form.Group className="d-flex justify-content-around">
-               <LogoutToggleButton onLogin={handleLogin} setNotification={setNotification} />
-               {!user && <Button onClick={() => navigate('/register')}>Registrieren</Button>}
-            </Form.Group>
-         </Form>
-      </Container>
+         <Container fluid className="component my-3 justify-content-center">
+            <h3>{user ? 'Herzlich willkommen!' : 'Bitte einloggen:'}</h3>
+            <Form name='login' onSubmit={handleLogin}>
+               {!user && (
+                  <>
+                     <Form.Group className="my-3">
+                        <Form.Label>Benutzername:</Form.Label>
+                        <Form.Control type="text" name="username" autoComplete='username' required />
+                     </Form.Group>
+                     <Form.Group className="my-3">
+                        <Form.Label>Passwort:</Form.Label>
+                        <Form.Control type="password" name="password" autoComplete='current-password' required />
+                     </Form.Group>
+                  </>
+               )}
+               <Form.Group className="d-flex justify-content-around">
+                  <LogoutToggleButton onLogin={handleLogin} setNotification={setNotification} />
+                  {!user && <Button onClick={() => navigate('/register')}>Registrieren</Button>}
+               </Form.Group>
+            </Form>
+         </Container>
+      </>
    );
 }
 
