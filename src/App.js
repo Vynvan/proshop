@@ -10,10 +10,11 @@ import { ProductProvider } from './hooks/ProductProvider';
 import Address from './pages/Address';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+import NewOrder from './pages/NewOrder';
+import Order from './pages/Order';
 import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Register from './pages/Register';
-import Order from './pages/Order';
 
 function App() {
    return (
@@ -43,7 +44,10 @@ function App() {
                      <Route path='/cart' element={
                         <Cart />
                      } />
-                     <Route path='/order' element= {
+                     <Route path='/neworder' element= {
+                        <NewOrder />
+                     } />
+                     <Route path='/order/:id' element= {
                         <Order />
                      } />
                      <Route path='/:id' element={
