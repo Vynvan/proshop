@@ -3,19 +3,24 @@ import { Col, Row } from 'react-bootstrap';
 import Product from '../components/Product';
 import useProducts from '../hooks/ProductProvider';
 import { useNavigate } from 'react-router-dom';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
 export default function Products() {
    const navigate = useNavigate();
-   const { error, productPages, setPage } = useProducts();
+   const { error, page, productPages, setPage } = useProducts();
    const [products, setProducts] = useState([]);
+   const [isLoading, setIsLoading] = useInfiniteScroll(() => setPage(prev => prev + 1));
 
    useEffect(() => {
-      setPage(1);
-   }, [setPage]);
+      if (page === 0) setPage(1);
+   }, [page, setPage]);
    
    useEffect(() => {
-      if (!error) setProducts(productPages.map(pp => pp.items).reduce((prev, curr) => [...prev, ...curr], []));
-   }, [error, productPages]);
+      if (!error) {
+         setProducts(productPages.map(pp => pp.items).reduce((prev, curr) => [...prev, ...curr], []));
+      }
+      if (isLoading) setIsLoading(false);
+   }, [error, isLoading, productPages, setIsLoading]);
 
    if (error) return (
       <div className='container-fluid d-flex'>
