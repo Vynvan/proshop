@@ -38,7 +38,7 @@ function Login() {
                text: 'Sie haben sich erfolgreich eingeloggt. Sie werden gleich weitergeleitet...',
                type: 'success'
             });
-            if (forbidden) navigate(-1);
+            if (forbidden) navigate(-2);
             else setTimeout(() => navigate('/'), 3000);
          } else {
             setNotification(message ?? 'Login fehlgeschlagen!');
