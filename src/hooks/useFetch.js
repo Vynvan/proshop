@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from './UserProvider';
 
@@ -49,12 +49,12 @@ export default function useFetch() {
       doFetch();
    }, [navigate, url, setBody, setError, setLoading, setResult, user]);
 
-   const fetchUrl = (url, method='GET', newBody=undefined) => {
+   const fetchUrl = useCallback((url, method='GET', newBody=undefined) => {
       console.log('Start fetching:', url, method, newBody)
       if (newBody) setBody(JSON.stringify(newBody));
       setMethod(method);
       setUrl(url);
-   };
+   }, []);
 
    return { error, loading, result, fetchUrl };
 }

@@ -23,10 +23,6 @@ export default function Address({ setVisible }) {
    }, [from]);
 
    useEffect(() => {
-      if (!user && typeof setVisible === 'function') setVisible(false);
-   }, [addresses, setVisible, user]);
-
-   useEffect(() => {
       if (address) {
          if (result?.addressId) {
             setAddresses((prev) => [...prev, { ...address, id: result.addessId }]);
@@ -34,10 +30,10 @@ export default function Address({ setVisible }) {
             if (from === 'neworder') navigate('/neworder');
          }
          else if (result?.success === 1) {
+            if (address.id) reload();
             setAddress(null);
          }
       }
-      else if (result?.success === 1) reload();
    }, [result, setAddress, setAddresses]);
 
    useEffect(() => {
