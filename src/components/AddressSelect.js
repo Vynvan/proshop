@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddressDisplay from "./AddressDisplay";
-import AddressForm from "./AddressForm";
 import useAddresses from "../hooks/useAddresses";
 
 export default function AddressSelect({ setAddress }) {
    const { addresses, error, loading } = useAddresses();
    const [selected, setSelected] = useState(null);
-   const defaultAddress = addresses ? addresses.find(address => address.isDefault) : null;
+   const defaultAddress = useMemo(() => addresses ? addresses.find(address => address.isDefault) : null, [addresses]);
 
    useEffect(() => {
       if (selected) setAddress(selected);
-      else {
-         setAddress(defaultAddress);
+      else if (defaultAddress) {
          setSelected(defaultAddress);
       }
-   }, [defaultAddress, selected, setAddress]);
+      else setSelected(addresses[0]);
+   }, [addresses, defaultAddress, selected, setAddress]);
 
    const handleChange = (addressId) => setSelected(addresses.find(address => address.id === parseInt(addressId)));
 
