@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 
-export default function AddressForm({ addressToEdit, formDefaults, saveAddress }) {
-   const [formData, setFormData] = useState(formDefaults);
+export const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', isDefault: 0 };
+
+export default function AddressForm({ address, saveAddress }) {
+   const [formData, setFormData] = useState({ ...formDefaults });
 
    useEffect(() => {
-      setFormData(addressToEdit ? { ...addressToEdit } : formDefaults);
-      console.log('AddressForm effect:', addressToEdit)
-   }, [addressToEdit]);
+      setFormData(address ? { ...address } : { ...formDefaults });
+   }, [address]);
 
    const handleInputChange = (e) => {
       e.preventDefault();
@@ -17,8 +18,8 @@ export default function AddressForm({ addressToEdit, formDefaults, saveAddress }
    };
 
    return (
-      <Card className='my-5 p-2 p-sm-3 p-md-4 justify-content-center text-start shadow'>
-         <Card.Title>Adresse bearbeiten</Card.Title>
+      <Card className="my-5 p-2 p-sm-3 p-md-4 justify-content-center text-start shadow">
+         <Card.Title>Adresse {address.id ? "bearbeiten" : "hinzufügen"}</Card.Title>
          <Form onSubmit={(e) => saveAddress ? saveAddress(e, formData) : null}>
             <Form.Group className="my-3">
                <Form.Label>Bezeichnung (zB. Hauptadresse):</Form.Label>
@@ -55,7 +56,7 @@ export default function AddressForm({ addressToEdit, formDefaults, saveAddress }
                />
             </Form.Group>
             <Form.Group className="my-3">
-               <Form.Label>Bundesland:</Form.Label>
+               <Form.Label>Bundesland (optional):</Form.Label>
                <Form.Control
                   type='text'
                   name="state"

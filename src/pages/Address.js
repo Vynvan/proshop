@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import AddressForm, { formDefaults } from '../components/AddressForm';
 import AddressList from '../components/AddressList';
 import Notification from '../components/Notification';
 import useAddresses from '../hooks/useAddresses';
 import useFetch from '../hooks/useFetch';
 import useUser from '../hooks/UserProvider';
-import AddressForm from '../components/AddressForm';
+import useQueryParam from '../hooks/useQueryParam';
 
 export default function Address({ setVisible }) {
    const { error, fetchUrl, loading, result } = useFetch();
@@ -13,19 +15,27 @@ export default function Address({ setVisible }) {
    const { addresses, error: errorAddresses, loading: loadingAddresses, setAddresses, reload } = useAddresses();
    const [address, setAddress] = useState(null);
    const [notification, setNotification] = useState('');
-   const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', isDefault: 0 };
+   const [from] = useQueryParam('from');
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (from === 'neworder') setAddress({ ...formDefaults });
+   }, [from]);
 
    useEffect(() => {
       if (!user && typeof setVisible === 'function') setVisible(false);
    }, [addresses, setVisible, user]);
 
    useEffect(() => {
-      if (result?.addressId && address) {
-         setAddresses((prev) => [...prev, { ...address, id: result.addessId }]);
-         setAddress(null);
-      }
-      else if (result?.success === 1 && address) {
-         setAddress(null);
+      if (address) {
+         if (result?.addressId) {
+            setAddresses((prev) => [...prev, { ...address, id: result.addessId }]);
+            setAddress(null);
+            if (from === 'neworder') navigate('/neworder');
+         }
+         else if (result?.success === 1) {
+            setAddress(null);
+         }
       }
       else if (result?.success === 1) reload();
    }, [result, setAddress, setAddresses]);
@@ -53,7 +63,7 @@ export default function Address({ setVisible }) {
             <AddressList addresses={addresses} setEdit={a => setAddress(a)}
             toggleDefault={a => handleToggle(a)} />
             {address ? (
-               <AddressForm addressToEdit={address} formDefaults={formDefaults} saveAddress={(e, a) => handleSaveAddress(e, a)} />
+               <AddressForm address={address} saveAddress={(e, a) => handleSaveAddress(e, a)} />
             ) : (
                <div className='d-flex justify-content-around'>
                   <Button onClick={() => setAddress({ ...formDefaults })}>Adresse hinzufügen</Button>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, FormSelect } from "react-bootstrap";
+import AddressSelect from "../components/AddressSelect";
 import ProductList from '../components/ProductList';
 import useCart from "../hooks/CartProvider";
 import useFetch from '../hooks/useFetch';
-import AddressSelect from "../components/AddressSelect";
 
 export default function Order() {
    const { cart, clearCart } = useCart();
@@ -27,7 +27,7 @@ export default function Order() {
          clearCart();
          navigate(`/order/${result.orderId}`);
       };
-   }, [result]);
+   }, [clearCart, navigate, result]);
 
    const buy = async () => {
       const cleanProducts = order.products.map(p => ({ id: p.id, quantity: p.quantity }));
@@ -49,11 +49,11 @@ export default function Order() {
 
    return (
       <Container fluid='md'>
-         <h3 className="mt-5 mb-2">Artikel:</h3>
+         <h3 className="mt-5 mb-2 px-1">Artikel</h3>
          {order && <ProductList products={order.products} />}
-         <h3 className="mt-5 mb-2">Lieferadresse:</h3>
+         <h3 className="mt-5 mb-2 px-1">Lieferadresse</h3>
          <AddressSelect setAddress={(address) => setAddress(address)} />
-         <h3 className="mt-5 mb-2">Zahlungsart:</h3>
+         <h3 className="mt-5 mb-2 px-1">Zahlungsart</h3>
          <FormSelect>
             <option>Rechnung</option>
          </FormSelect>

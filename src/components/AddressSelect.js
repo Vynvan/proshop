@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import AddressDisplay from "./AddressDisplay";
+import AddressForm from "./AddressForm";
 import useAddresses from "../hooks/useAddresses";
 
 export default function AddressSelect({ setAddress }) {
@@ -16,12 +18,16 @@ export default function AddressSelect({ setAddress }) {
       }
    }, [defaultAddress, selected, setAddress]);
 
-   const handleChange = (addressId) => setSelected(addresses.find(address => address.id == addressId));
+   const handleChange = (addressId) => setSelected(addresses.find(address => address.id === parseInt(addressId)));
 
    if (error) return (
       <Container fluid="md" className="my-3 d-flex">
          <p className="mb-3 mx-auto">Adressen konnten nicht geladen werden. Bitte versuchen Sie es erneut.</p>
       </Container>
+   );
+
+   if (addresses?.length === 0) return (
+      <p>Sie haben noch keine Lieferadresse bei uns hinterlegt: <Link to={"/address?from=neworder"}>Adresse hinzufügen</Link></p>
    );
 
    return (
