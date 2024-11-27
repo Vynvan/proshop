@@ -1,8 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 
+/**
+ * Default values for the address form fields.
+ * @constant {Object}
+ * @property {string} name - The name of the address.
+ * @property {string} street - The street of the address.
+ * @property {string} city - The city of the address.
+ * @property {string} state - The state of the address (optional).
+ * @property {string} postal - The postal code of the address.
+ * @property {string} country - The country of the address (default is 'Deutschland').
+ * @property {number} isDefault - Indicates if this address is the default address (0 or 1).
+ */
 export const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', isDefault: 0 };
 
+/**
+ * AddressForm component for adding or editing an address.
+ *
+ * @category Components
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.address - The address object to edit (optional).
+ * @param {function} props.saveAddress - The function to call when saving the address.
+ * 
+ * @returns {JSX.Element} The rendered AddressForm component.
+ */
 export default function AddressForm({ address, saveAddress }) {
    const [formData, setFormData] = useState({ ...formDefaults });
 
@@ -19,7 +41,7 @@ export default function AddressForm({ address, saveAddress }) {
 
    return (
       <Card className="my-5 p-2 p-sm-3 p-md-4 justify-content-center text-start shadow">
-         <Card.Title>Adresse {address.id ? "bearbeiten" : "hinzufügen"}</Card.Title>
+         <Card.Title>Adresse {address?.id ? "bearbeiten" : "hinzufügen"}</Card.Title>
          <Form onSubmit={(e) => saveAddress ? saveAddress(e, formData) : null}>
             <Form.Group className="my-3">
                <Form.Label>Bezeichnung (zB. Hauptadresse):</Form.Label>

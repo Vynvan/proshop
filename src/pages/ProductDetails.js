@@ -14,14 +14,17 @@ export default function ProductDetails() {
    const [imageSrc, setImageSrc] = useState(product.image ?? 'placeholder.jpg');
 
    useEffect(() => {
-      console.log('ProductDetails for', id, ':', detailedProducts[id])
       if (detailedProducts[id])
-         setProduct(detailedProducts[id]);
+         setProduct(prev => ({ ...prev, ...detailedProducts[id] }));
       else {
          const preview = getDetailed(id);
-         if (preview) setProduct(preview);
+         if (preview) setProduct(prev => ({ ...prev, ...preview }));
       }
    }, [id, detailedProducts, getDetailed]);
+
+   useEffect(() => {
+      if (product) setImageSrc(product.image ?? 'placeholder.jpg');
+   }, [product]);
 
    function decrement() {
       if (count > 1) setCount(count - 1);
