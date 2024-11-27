@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Card, Col, Image } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Col, Fade, Image } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import useCart from "../hooks/CartProvider";
 import useProducts from "../hooks/ProductProvider";
@@ -8,8 +8,10 @@ export default function ProductDetails() {
    const { addToCart } = useCart();
    const { id } = useParams();
    const { detailedProducts, getDetailed } = useProducts();
-   const [product, setProduct] = useState({ title: '', text: '', price: '', image: '2922280_27002.jpg' });
-   const [ count, setCount ] = useState(1);
+   const [product, setProduct] = useState({ title: '', text: '', price: '', image: 'placeholder.jpg' });
+   const [count, setCount] = useState(1);
+   const [show, setShow] = useState(false);
+   const [imageSrc, setImageSrc] = useState(product.image ?? 'placeholder.jpg');
 
    useEffect(() => {
       console.log('ProductDetails for', id, ':', detailedProducts[id])
@@ -31,8 +33,10 @@ export default function ProductDetails() {
             <Card.Title>{product.title}</Card.Title>
          </Card.Header>
          <Card.Body className='row'>
-            <Image src={product.image} srcSet="2922280_27002.jpg" alt={product.title} 
-               className="mb-2 col-md-6 col-lg-5 col-xl-4" fluid />
+            <Fade in={show}>
+               <Image className="mb-2 col-md-6 col-lg-5 col-xl-4" fluid srcSet={`${process.env.REACT_APP_APIURL}/${imageSrc}`} alt={product.title} 
+               onLoad={() => setShow(true)} onError={() => setImageSrc('placeholder.jpg')} />               
+            </Fade>
             <Col sm="12" md="6" lg="7" xl="8" className='px-2 py-4'>
                <Card.Title >{product.title}</Card.Title>
                <p>Preis: {product.price} €</p>

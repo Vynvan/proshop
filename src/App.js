@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import CardLayout from './components/CardLayout';
 import Footer from './components/Footer';
@@ -53,6 +53,11 @@ function App() {
                      <Route path='/:id' element={
                         <ProductDetails />
                      } />
+                     <Route path='/*' element={
+                        <div className='container-fluid d-flex'>
+                           <p className='m-auto'>Seite nicht gefunden.</p>
+                        </div>
+                  } />
 
                   </Route>
                </Routes>
