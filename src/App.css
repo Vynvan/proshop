@@ -47,6 +47,16 @@ nav .dropdown-item.nav-link,nav.navbar-expand-sm .dropdown-item.nav-link {
   padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
 }
 
+.accordion-button:not(.collapsed) {
+  background-color: inherit;
+}
+
+.accordion-footer {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .accordion-item .accordion-button {
   width: fit-content;
 }
@@ -62,6 +72,11 @@ nav .dropdown-item.nav-link,nav.navbar-expand-sm .dropdown-item.nav-link {
 
 .cart-item .title {
   cursor: pointer;
+}
+
+.cart-item .image {
+  height: 200px;
+  object-fit: contain;
 }
 
 .product .image {

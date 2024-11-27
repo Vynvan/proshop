@@ -10,9 +10,9 @@ export default function Product({ product, onClick }) {
    return (
       <Fade in={show}>
          <Card className='product'>
-            <Card.Img variant='top' className='p-2 image' srcSet={`${process.env.REACT_APP_APIURL}/${imageSrc}`} 
+            <Card.Img variant='top' className='p-2 image pointer' srcSet={`${process.env.REACT_APP_APIURL}/${imageSrc}`} 
             onClick={onClick} onLoad={() => setShow(true)} onError={() => setImageSrc('placeholder.jpg')} />
-            <Card.Title className='px-lg-4 px-md-3 px-2' onClick={onClick}>{product.title}</Card.Title>
+            <Card.Title className='px-lg-4 px-md-3 px-2 pointer' onClick={onClick}>{product.title}</Card.Title>
             <Card.Text className='px-lg-4 px-md-3 px-2'>{product.text + (product.text.length === 50 ? '...' : '')}</Card.Text>
             <Card.Footer className='d-flex align-items-center justify-content-between'>
                <span>{product.price} €</span>
