@@ -29,7 +29,7 @@ export default function Products() {
    );
 
    return (
-      <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="mx-1 p-md-3 p-2">
+      <Row xs={1} sm={2} md={3} xl={4} xxl={5} className="mx-1 p-md-3 p-2">
          {products.map((product) => {
             return (
                <Col key={product.id} className="g-2 g-md-3">
