@@ -5,12 +5,14 @@ import useCart from '../hooks/CartProvider';
 export default function Product({ product, onClick }) {
    const { addToCart } = useCart();
    const [show, setShow] = useState(false);
+   const [imageSrc, setImageSrc] = useState(product.image ?? 'placeholder.jpg');
 
    return (
       <Fade in={show}>
          <Card className='product'>
-            <Card.Img className='mb-1' src={product.image} srcSet='2922280_27002.jpg' onClick={onClick} onLoad={() => setShow(true)} />
-            <Card.Title className='px-lg-4 px-md-3 px-2' onClick={onClick}>{product.title}</Card.Title>
+            <Card.Img variant='top' className='mb-1 image' srcSet={imageSrc} 
+            onClick={onClick} onLoad={() => setShow(true)} onError={() => setImageSrc('placeholder.jpg')} />
+            <Card.Title className='mt-2 px-lg-4 px-md-3 px-2' onClick={onClick}>{product.title}</Card.Title>
             <Card.Text className='px-lg-4 px-md-3 px-2'>{product.text + (product.text.length === 50 ? '...' : '')}</Card.Text>
             <Card.Footer className='d-flex align-items-center justify-content-between'>
                <span>{product.price} €</span>

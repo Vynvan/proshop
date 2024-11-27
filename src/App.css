@@ -54,3 +54,14 @@ nav .dropdown-item.nav-link,nav.navbar-expand-sm .dropdown-item.nav-link {
 .cart-item .title {
   cursor: pointer;
 }
+
+.product .image {
+  height: 400px;
+  object-fit: contain;
+}
+
+@media (min-width: 576px) {
+  .product .image {
+    height: 300px;
+  }
+}
