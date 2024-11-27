@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AddressForm, { formDefaults } from '../components/AddressForm';
 import AddressList from '../components/AddressList';
 import Notification from '../components/Notification';
 import useAddresses from '../hooks/useAddresses';
 import useFetch from '../hooks/useFetch';
-import useUser from '../hooks/UserProvider';
 import useQueryParam from '../hooks/useQueryParam';
 
-export default function Address({ setVisible }) {
+/**
+ * A component that manages the display and editing of user addresses.
+ * It allows users to add, edit, and toggle default addresses.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
+export default function Address() {
    const { error, fetchUrl, loading, result } = useFetch();
-   const { user } = useUser();
    const { addresses, error: errorAddresses, loading: loadingAddresses, setAddresses, reload } = useAddresses();
    const [address, setAddress] = useState(null);
    const [notification, setNotification] = useState('');
@@ -52,16 +56,24 @@ export default function Address({ setVisible }) {
       if (toggleAddress) fetchUrl('address', 'PUT', { id, isDefault: toggleAddress.isDefault === 1 ? 0 : 1 })
    }
 
+   // Display a loading spinner while addresses are being fetched
+   if (loadingAddresses) return (
+      <Container fluid="md" className="my-3 d-flex">
+         <Spinner className="mx-auto" animation="border" variant="primary" />
+      </Container>
+   );
+
    return (
       <>
-         <Notification notification={notification} /> 
-         <Container fluid='md' className='component justify-content-center'>
+         <Notification notification={notification} />
+         <Container fluid='md' className='address component justify-content-center'>
             <AddressList addresses={addresses} setEdit={a => setAddress(a)}
             toggleDefault={a => handleToggle(a)} />
             {address ? (
                <AddressForm address={address} saveAddress={(e, a) => handleSaveAddress(e, a)} />
             ) : (
-               <div className='d-flex justify-content-around'>
+               <div className='d-flex justify-content-around position-relative'>
+                  {loading && <Spinner animation="border" variant="primary" />}
                   <Button onClick={() => setAddress({ ...formDefaults })}>Adresse hinzufügen</Button>
                </div>
             )}

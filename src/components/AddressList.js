@@ -2,6 +2,18 @@ import { useState } from 'react';
 import { Accordion, Button, Card } from 'react-bootstrap';
 import AddressDisplay from './AddressDisplay';
 
+/**
+ * A component that displays a list of addresses in an accordion format.
+ * Users can view details of each address, edit addresses, and set a default address.
+ *
+ * @category Components
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.addresses - An array of address objects to be displayed.
+ * @param {Function} props.setEdit - A function to set the address for editing.
+ * @param {Function} props.toggleDefault - A function to toggle the default status of an address.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function AddressList({ addresses, setEdit, toggleDefault }) {
    const [activeKey, setActiveKey] = useState(null);
 
@@ -15,7 +27,8 @@ export default function AddressList({ addresses, setEdit, toggleDefault }) {
       <Accordion activeKey={activeKey} className='mb-3'>
          {addresses.map(address => (
             <Accordion.Item className="address-item" eventKey={address.id} key={address.id}>
-               <Card className="flex-row align-items-center border-0 flex-0-0 m-0" onClick={() => setActiveKey(activeKey === address.id ? null : address.id)}>
+               <Card className="flex-row align-items-center border-0 flex-0-0 m-0 pointer" 
+               onClick={() => setActiveKey(activeKey === address.id ? null : address.id)}>
                   <span className="title flex-grow-1 px-3">
                      {address.name}
                   </span>

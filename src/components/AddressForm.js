@@ -15,14 +15,14 @@ import { Button, Card, Form } from 'react-bootstrap';
 export const formDefaults = { name: '', street: '', city: '', state: '', postal: '', country: 'Deutschland', isDefault: 0 };
 
 /**
- * AddressForm component for adding or editing an address.
+ * AddressForm component for adding or editing an address. If an address is given, the form uses it as default value and 
+ * shows the edit form title, otherwise the new address title is used.
  *
  * @category Components
  * @component
  * @param {Object} props - The properties passed to the component.
  * @param {Object} props.address - The address object to edit (optional).
  * @param {function} props.saveAddress - The function to call when saving the address.
- * 
  * @returns {JSX.Element} The rendered AddressForm component.
  */
 export default function AddressForm({ address, saveAddress }) {

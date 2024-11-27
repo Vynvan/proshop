@@ -13,7 +13,6 @@ import { Container } from "react-bootstrap";
  * @param {string} props.address.state - The state of the address.
  * @param {string} props.address.country - The country of the address.
  * @param {boolean} [props.centered=true] - Indicates whether the address should be displayed centered. Default is true.
- *
  * @returns {JSX.Element|null} Returns a JSX element that displays the address, or null if no address is provided.
  */
 export default function AddressDisplay({ address, centered=true }) {

@@ -18,8 +18,8 @@
   background-color: inherit;
 }
 
-nav .dropdown-menu[data-bs-popper] {
-  left: -80px;
+.pointer {
+  cursor: pointer;
 }
 
 button.rounded-circle {
@@ -30,6 +30,10 @@ button.rounded-circle {
   height: 20px;
   width: 20px;
   margin-top: -3px;
+}
+
+nav .dropdown-menu[data-bs-popper] {
+  left: -80px;
 }
 
 nav .bi {
@@ -45,6 +49,11 @@ nav .dropdown-item.nav-link,nav.navbar-expand-sm .dropdown-item.nav-link {
 
 .accordion-item .accordion-button {
   width: fit-content;
+}
+
+.address .spinner-border {
+  position: absolute;
+  right: 12%;
 }
 
 .cart-item .price {
