@@ -1,11 +1,24 @@
+/**
+ * @module Components
+ */
+
 import { Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import CartLink from './CartLink';
-import DropdownSwitch from './DropdownSwitch';
 import LogoutToggleButton from './LogoutToggleButton';
 import useUser from '../hooks/UserProvider';
 
+/**
+ * A navigation component that provides links to various sections of the application.
+ * It includes links for articles, cart, user account management.
+ * The component adapts based on the user's authentication status.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered navigation bar.
+ * @see {@link https://react-bootstrap.github.io/components/navbar/} for more information on React Bootstrap Navbar.
+ * @see {@link https://reactrouter.com/web/guides/quick-start} for more information on React Router.
+ */
 function Navigation() {
    const { user } = useUser();
 
@@ -22,9 +35,8 @@ function Navigation() {
                   </Link>
                   {user ? (
                      <NavDropdown id="dropdown-basic-button" drop='down-centered' variant='none' title={user.username}>
-                     <NavDropdown.Item as={Link} className='nav-link' to="/address">Adressen</NavDropdown.Item>
-                     <NavDropdown.Item as={Link} className='nav-link' to="/order">Bestellen</NavDropdown.Item>
-                     <DropdownSwitch labelName='Dark mode' />
+                        <NavDropdown.Item as={Link} className='nav-link' to="/address">Adressen</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} className='nav-link' to="/order">Bestellen</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <LogoutToggleButton asDropdownItem />
                      </NavDropdown>

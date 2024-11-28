@@ -1,3 +1,7 @@
+/**
+ * @module Components
+ */
+
 import { useEffect, useMemo, useState } from "react";
 import { Container, FormSelect, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -8,11 +12,12 @@ import useAddresses from "../hooks/useAddresses";
  * A component that allows users to select an address from a list.
  * It displays a dropdown of addresses and shows the selected address details.
  *
+ * @component
  * @param {Object} props - The component props.
  * @param {Function} props.setAddress - A function to set the selected address.
  * @returns {JSX.Element} The rendered component.
  */
-export default function AddressSelect({ setAddress }) {
+function AddressSelect({ setAddress }) {
    const { addresses, error, loading } = useAddresses();
    const [selected, setSelected] = useState(null);
    const defaultAddress = useMemo(() => addresses ? addresses.find(address => address.isDefault) : null, [addresses]);
@@ -59,3 +64,5 @@ export default function AddressSelect({ setAddress }) {
       </>
    );
 }
+
+export default AddressSelect;

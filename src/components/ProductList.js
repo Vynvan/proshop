@@ -1,6 +1,31 @@
+/**
+ * @module Components
+ */
+
 import { ListGroup } from 'react-bootstrap';
 
-export default function ProductList({ products }) {
+/**
+ * A component that displays a list of products in a structured format.
+ * It shows the product name, quantity, and total price for each item, along with a summary of the total price.
+ * 
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.products - An array of product objects to display in the list.
+ * @param {Object} props.products[] - The product object containing details for each product.
+ * @param {string} props.products[].id - The unique identifier for the product.
+ * @param {string} props.products[].title - The name of the product.
+ * @param {number} props.products[].quantity - The quantity of the product in the list.
+ * @param {number} props.products[].price - The price of a single unit of the product.
+ * @returns {JSX.Element} The rendered list of products.
+ * @example
+ * // Usage of the ProductList component
+ * const products = [
+ *   { id: '1', title: 'Product A', quantity: 2, price: 10 },
+ *   { id: '2', title: 'Product B', quantity: 1, price: 15 }
+ * ];
+ * <ProductList products={products} />
+ */
+function ProductList({ products }) {
    return (
       <ListGroup>
          <ListGroup.Item className="d-flex" variant="secondary">
@@ -25,3 +50,5 @@ export default function ProductList({ products }) {
       </ListGroup>
    );
 }
+
+export default ProductList;

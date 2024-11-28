@@ -1,7 +1,16 @@
+/**
+ * @module Components
+ */
+
 import { Card, Row } from 'react-bootstrap';
 
+/**
+ * A common footer component to hold the copyright and for the web nessesary links.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
 function Footer() {
-
    return (
       <Card as="footer" className="mt-4 px-5 py-4 bg-white shadow complete-width">
          <Row className="align-items-center justify-content-between flex-column flex-sm-row">

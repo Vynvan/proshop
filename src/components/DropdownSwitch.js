@@ -1,6 +1,17 @@
+/**
+ * @module Components
+ */
+
 import { Form } from 'react-bootstrap';
 
-export default function DropdownSwitch({ labelName }) {
+/**
+ * DropdownSwitch component that is a switch button optimized for a Bootstrap-react dropdown menu.
+ * DROPPED FEATURE: This was developed as a button to switch on and off dark mode.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
+function DropdownSwitch({ labelName }) {
 
    return (
       <Form.Group className='d-flex dropdown-item complex-item'>
@@ -9,3 +20,5 @@ export default function DropdownSwitch({ labelName }) {
       </Form.Group>
    );
 }
+
+export default DropdownSwitch;

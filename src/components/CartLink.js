@@ -1,7 +1,20 @@
+/**
+ * @module Components
+ */
+
 import { Badge } from "react-bootstrap";
 import useCart from "../hooks/CartProvider";
 
-export default function CartLink() {
+/**
+ * CartLink component that displays a cart icon and the number of items in the cart.
+ * 
+ * This component uses the `useCart` hook to access the current cart state.
+ * If there are items in the cart, it displays the count using a Badge.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered CartLink component.
+ */
+function CartLink() {
    const { cart } = useCart();
 
    return (
@@ -20,3 +33,5 @@ export default function CartLink() {
       </>
    );
 }
+
+export default CartLink;

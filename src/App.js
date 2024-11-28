@@ -16,6 +16,12 @@ import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Register from './pages/Register';
 
+/**
+ * Main application component that sets up routing and context providers.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered application.
+ */
 function App() {
    return (
    <BrowserRouter>
@@ -57,8 +63,7 @@ function App() {
                         <div className='container-fluid d-flex'>
                            <p className='m-auto'>Seite nicht gefunden.</p>
                         </div>
-                  } />
-
+                     } />
                   </Route>
                </Routes>
                <Footer />

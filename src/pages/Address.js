@@ -14,7 +14,7 @@ import useQueryParam from '../hooks/useQueryParam';
  *
  * @returns {JSX.Element} The rendered component.
  */
-export default function Address() {
+function Address() {
    const { error, fetchUrl, loading, result } = useFetch();
    const { addresses, error: errorAddresses, loading: loadingAddresses, setAddresses, reload } = useAddresses();
    const [address, setAddress] = useState(null);
@@ -81,3 +81,5 @@ export default function Address() {
       </>
    );
 }
+
+export default Address;

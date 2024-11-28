@@ -1,8 +1,29 @@
+/**
+ * @module Components
+ */
+
 import { useState } from 'react';
 import { Button, Card, Fade } from 'react-bootstrap';
 import useCart from '../hooks/CartProvider';
 
-export default function Product({ product, onClick }) {
+/**
+ * A product component that displays product details including an image, title, description, and price.
+ * It allows users to add the product to their cart and handles image loading and errors.
+ * 
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.product - The product object containing details to display.
+ * @param {string} props.product.title - The title of the product.
+ * @param {string} props.product.text - A brief description of the product.
+ * @param {number} props.product.price - The price of the product.
+ * @param {string} [props.product.image] - The URL of the product image.
+ * @param {function} props.onClick - A function to handle click events on the product card.
+ * @returns {JSX.Element} The rendered product card.
+ * @example
+ * // Usage of the Product component
+ * <Product product={{ title: 'Sample Product', text: 'This is a great product.', price: 19.99 }} onClick={() => console.log('Product clicked!')} />
+ */
+function Product({ product, onClick }) {
    const { addToCart } = useCart();
    const [show, setShow] = useState(false);
    const [imageSrc, setImageSrc] = useState(product.image ?? 'placeholder.jpg');
@@ -27,3 +48,5 @@ export default function Product({ product, onClick }) {
       </Fade>
    );
 }
+
+export default Product;

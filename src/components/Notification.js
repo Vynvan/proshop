@@ -1,7 +1,26 @@
+/**
+ * @module Components
+ */
+
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 
-export default function Notification({ className, notification }) {
+/**
+ * A notification component that displays alert messages to the user.
+ * It handles different types of messages and auto-dismisses non-danger messages after a specified duration.
+ * 
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional CSS class names to apply to the alert.
+ * @param {Object} props.notification - The notification object containing the message and type.
+ * @param {string} [props.notification.text] - The message text to display in the alert.
+ * @param {string} [props.notification.type] - The type of alert (e.g., 'success', 'warning', 'danger').
+ * @returns {JSX.Element} The rendered notification alert.
+ * @example
+ * // Usage of the Notification component
+ * <Notification className="custom-class" notification={{ text: 'Operation successful!', type: 'success' }} />
+ */
+function Notification({ className, notification }) {
    const [ message, setMessage ] = useState('');
    const [ messageType, setMessageType ] = useState('danger');
 
@@ -28,3 +47,5 @@ export default function Notification({ className, notification }) {
       </>
    );
 }
+
+export default Notification;
