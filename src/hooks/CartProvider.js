@@ -110,4 +110,4 @@ function useCart () {
    return useContext(CartContext);
 };
 
-export default  useCart;
+export default useCart;
