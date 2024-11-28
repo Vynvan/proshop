@@ -18,6 +18,17 @@ export function CartProvider({ children }) {
    const { user } = useUser();
    const initialState = user && localStorage.getItem(`cart-${user.userId}`) ? JSON.parse(localStorage.getItem(`cart-${user.userId}`)) : [];
    
+   /**
+    * Reducer function to manage cart state.
+    *
+    * @param {Array} state - The current state of the cart, (i.e. an array of products).
+    * @param {Object} action - The action to perform on the state.
+    * @param {string} action.type - The type of action to perform (ADD, CLEAR, DECREMENT, REMOVE).
+    * @param {string} [action.id] - The ID of the product to modify.
+    * @param {Object} [action.product] - The product object to add to the cart (required for ADD action).
+    * @param {number} [action.quantity] - The quantity of the product to add (default is 1).
+    * @returns {Array} The updated state of the cart after applying the action, (i.e. an array of products).
+    */
    const [cart, dispatch] = useReducer((state, action) => {
       switch (action.type) {
          case 'ADD':
