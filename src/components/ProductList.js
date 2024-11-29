@@ -1,8 +1,8 @@
+import { ListGroup } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { ListGroup } from 'react-bootstrap';
 
 /**
  * A component that displays a list of products in a structured format.

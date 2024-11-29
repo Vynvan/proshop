@@ -6,6 +6,12 @@ import Notification from '../components/Notification';
 import useUser from '../hooks/UserProvider';
 import useQueryParam from '../hooks/useQueryParam';
 
+/**
+ * Login component allows users to log into their account.
+ * It handles user authentication and displays relevant notifications.
+ *
+ * @returns {JSX.Element} The rendered Login component.
+ */
 function Login() {
    const [forbidden] = useQueryParam('forbidden');
    const [notification, setNotification] = useState('');

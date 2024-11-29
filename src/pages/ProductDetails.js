@@ -4,7 +4,14 @@ import { useParams } from "react-router-dom";
 import useCart from "../hooks/CartProvider";
 import useProducts from "../hooks/ProductProvider";
 
-export default function ProductDetails() {
+/**
+ * ProductDetails component displays detailed information about a specific product.
+ * It allows users to view the product's title, description, price, and image,
+ * as well as adjust the quantity and add the product to their cart. The description is fetched on load.
+ *
+ * @returns {JSX.Element} The rendered product details card.
+ */
+function ProductDetails() {
    const { addToCart } = useCart();
    const { id } = useParams();
    const { detailedProducts, getDetailed } = useProducts();
@@ -63,3 +70,5 @@ export default function ProductDetails() {
       </Card>
    );
 }
+
+export default ProductDetails;

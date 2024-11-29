@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/AddressSelect.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Components.html">Components</a></li><li><a href="module-Hooks.html">Hooks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Address">Address</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Cart">Cart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#ProductDetails">ProductDetails</a></li><li><a href="global.html#Products">Products</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#index">index</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/AddressSelect.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useMemo, useState } from "react";
+import { Container, FormSelect, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import AddressDisplay from "./AddressDisplay";
+import useAddresses from "../hooks/useAddresses";
+
+/**
+ * @module Components
+ */
+
+/**
+ * A component that allows users to select an address from a list.
+ * It displays a dropdown of addresses and shows the selected address details.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.setAddress - A function to set the selected address.
+ * @returns {JSX.Element} The rendered component.
+ */
+function AddressSelect({ setAddress }) {
+   const { addresses, error, loading } = useAddresses();
+   const [selected, setSelected] = useState(null);
+   const defaultAddress = useMemo(() => addresses ? addresses.find(address => address.isDefault) : null, [addresses]);
+
+   useEffect(() => {
+      if (selected) setAddress(selected);
+      else if (defaultAddress) {
+         setSelected(defaultAddress);
+      }
+      else setSelected(addresses[0]);
+   }, [addresses, defaultAddress, selected, setAddress]);
+
+   const handleChange = (addressId) => setSelected(addresses.find(address => address.id === parseInt(addressId)));
+
+   // Display an error message if addresses could not be loaded
+   if (error) return (
+      &lt;Container fluid="md" className="my-3 d-flex">
+         &lt;p className="mb-3 mx-auto">Adressen konnten nicht geladen werden. Bitte versuchen Sie es erneut.&lt;/p>
+      &lt;/Container>
+   );
+
+   // Display a loading spinner while addresses are being fetched
+   if (loading) return (
+      &lt;Container fluid="md" className="my-3 d-flex">
+         &lt;Spinner className="mx-auto" animation="border" variant="primary" />
+      &lt;/Container>
+   );
+
+   // Display a message if there are no addresses available
+   if (addresses?.length === 0) return (
+      &lt;Container fluid="md" className="my-3 d-flex">
+         &lt;p>Sie haben noch keine Lieferadresse bei uns hinterlegt: &lt;Link to={"/address?from=neworder"}>Adresse hinzufügen&lt;/Link>&lt;/p>
+      &lt;/Container>
+   );
+
+   return (
+      &lt;>
+         &lt;FormSelect className="mb-3" defaultValue={defaultAddress} onChange={(e) => handleChange(e.target.value)}>
+            {addresses &amp;&amp; addresses.map(address => (
+               &lt;option key={address.id} value={address.id}>{address.name}&lt;/option>
+            ))}
+         &lt;/FormSelect>
+         &lt;AddressDisplay address={selected} />
+      &lt;/>
+   );
+}
+
+export default AddressSelect;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

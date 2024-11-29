@@ -1,9 +1,9 @@
+import { Children, cloneElement, useEffect, useState } from 'react';
+import { Card, Container } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { Children, cloneElement, useEffect, useState } from 'react';
-import { Card, Container } from 'react-bootstrap';
 
 /**
  * CardLayout component that arranges its children within a Bootstrap Container.

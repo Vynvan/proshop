@@ -1,13 +1,13 @@
-/**
- * @module Components
- */
-
 import { Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import CartLink from './CartLink';
 import LogoutToggleButton from './LogoutToggleButton';
 import useUser from '../hooks/UserProvider';
+
+/**
+ * @module Components
+ */
 
 /**
  * A navigation component that provides links to various sections of the application.

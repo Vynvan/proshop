@@ -5,7 +5,13 @@ import useProducts from '../hooks/ProductProvider';
 import { useNavigate } from 'react-router-dom';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
-export default function Products() {
+/**
+ * Products component fetches and displays a list of products.
+ * It supports infinite scrolling to load more products as the user scrolls down.
+ *
+ * @returns {JSX.Element} The rendered list of products.
+ */
+function Products() {
    const navigate = useNavigate();
    const { error, page, productPages, setPage } = useProducts();
    const [products, setProducts] = useState([]);
@@ -40,3 +46,5 @@ export default function Products() {
       </Row>
    );
 }
+
+export default Products;

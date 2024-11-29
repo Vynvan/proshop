@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> pages/Login.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Components.html">Components</a></li><li><a href="module-Hooks.html">Hooks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Address">Address</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Cart">Cart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#ProductDetails">ProductDetails</a></li><li><a href="global.html#Products">Products</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#index">index</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/Login.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
+import { Button, Container, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import LogoutToggleButton from '../components/LogoutToggleButton';
+import Notification from '../components/Notification';
+import useUser from '../hooks/UserProvider';
+import useQueryParam from '../hooks/useQueryParam';
+
+/**
+ * Login component allows users to log into their account.
+ * It handles user authentication and displays relevant notifications.
+ *
+ * @returns {JSX.Element} The rendered Login component.
+ */
+function Login() {
+   const [forbidden] = useQueryParam('forbidden');
+   const [notification, setNotification] = useState('');
+   const { user, setUser } = useUser();
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (forbidden) {
+         setUser(null);
+         setNotification('Session abgelaufen. Bitte erneut einloggen!');
+      }
+   }, [forbidden, setUser]);
+
+
+   const handleLogin = async () => {
+      const username = document.forms['login']['username'].value;
+      const password = document.forms['login']['password'].value;
+
+      try {
+         const response = await fetch(`${process.env.REACT_APP_APIURL}/users`, {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+         });
+
+         const { message, userId, token } = await response.json();
+         if (response.ok) {
+            setUser({ username, userId, token });
+            setNotification({
+               text: 'Sie haben sich erfolgreich eingeloggt. Sie werden gleich weitergeleitet...',
+               type: 'success'
+            });
+            if (forbidden) navigate(-2);
+            else setTimeout(() => navigate('/'), 3000);
+         } else {
+            setNotification(message ?? 'Login fehlgeschlagen!');
+         }
+      } catch (error) {
+         setNotification('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
+      }
+   };
+
+   return (
+      &lt;>
+         &lt;Notification notification={notification} />
+         &lt;Container fluid className="component my-3 justify-content-center">
+            &lt;h3>{user ? 'Herzlich willkommen!' : 'Bitte einloggen:'}&lt;/h3>
+            &lt;Form name='login' onSubmit={handleLogin}>
+               {!user &amp;&amp; (
+                  &lt;>
+                     &lt;Form.Group className="my-3">
+                        &lt;Form.Label>Benutzername:&lt;/Form.Label>
+                        &lt;Form.Control type="text" name="username" autoComplete='username' required />
+                     &lt;/Form.Group>
+                     &lt;Form.Group className="my-3">
+                        &lt;Form.Label>Passwort:&lt;/Form.Label>
+                        &lt;Form.Control type="password" name="password" autoComplete='current-password' required />
+                     &lt;/Form.Group>
+                  &lt;/>
+               )}
+               &lt;Form.Group className="d-flex justify-content-around">
+                  &lt;LogoutToggleButton onLogin={handleLogin} setNotification={setNotification} />
+                  {!user &amp;&amp; &lt;Button onClick={() => navigate('/register')}>Registrieren&lt;/Button>}
+               &lt;/Form.Group>
+            &lt;/Form>
+         &lt;/Container>
+      &lt;/>
+   );
+}
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

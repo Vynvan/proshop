@@ -1,8 +1,8 @@
+import { Form } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { Form } from 'react-bootstrap';
 
 /**
  * DropdownSwitch component that is a switch button optimized for a Bootstrap-react dropdown menu.

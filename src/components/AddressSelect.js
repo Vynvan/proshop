@@ -1,12 +1,12 @@
-/**
- * @module Components
- */
-
 import { useEffect, useMemo, useState } from "react";
 import { Container, FormSelect, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddressDisplay from "./AddressDisplay";
 import useAddresses from "../hooks/useAddresses";
+
+/**
+ * @module Components
+ */
 
 /**
  * A component that allows users to select an address from a list.

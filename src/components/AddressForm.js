@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
+import { Button, Card, Form } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { useEffect, useState } from 'react';
-import { Button, Card, Form } from 'react-bootstrap';
 
 /**
  * Default values for the address form fields.

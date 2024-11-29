@@ -5,11 +5,29 @@ import LogoutToggleButton from '../components/LogoutToggleButton';
 import Notification from '../components/Notification';
 import useUser from '../hooks/UserProvider';
 
-export default function Register() {
+/**
+ * Register component for user registration.
+ * This component allows new users to register by filling out a form with their  username, name, email, and password.
+ * It handles form submission and displays notifications based on the registration status.
+ *
+ * @returns {JSX.Element} The rendered Register component.
+ */
+function Register() {
    const { user, setUser } = useUser();
    const [ notification, setNotification ] = useState('');
    const navigate = useNavigate();
 
+   /**
+    * Handles user registration.
+    *
+    * This function retrieves the values from the registration form, validates  the password confirmation, 
+    * and sends a POST request to the server to register the user. 
+    * It updates the notification state based on the response from the server.
+    *
+    * @async
+    * @function handleRegistration
+    * @returns {Promise<void>} A promise that resolves when the registration process is complete.
+    */
    const handleRegistration = async () => {
       const email = document.forms['register']['email'].value;
       const name = document.forms['register']['name'].value;
@@ -83,3 +101,5 @@ export default function Register() {
       </>
    );
 }
+
+export default Register;

@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> pages/ProductDetails.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Components.html">Components</a></li><li><a href="module-Hooks.html">Hooks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Address">Address</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Cart">Cart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#ProductDetails">ProductDetails</a></li><li><a href="global.html#Products">Products</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#index">index</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/ProductDetails.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import { Button, ButtonGroup, Card, Col, Fade, Image } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import useCart from "../hooks/CartProvider";
+import useProducts from "../hooks/ProductProvider";
+
+/**
+ * ProductDetails component displays detailed information about a specific product.
+ * It allows users to view the product's title, description, price, and image,
+ * as well as adjust the quantity and add the product to their cart. The description is fetched on load.
+ *
+ * @returns {JSX.Element} The rendered product details card.
+ */
+function ProductDetails() {
+   const { addToCart } = useCart();
+   const { id } = useParams();
+   const { detailedProducts, getDetailed } = useProducts();
+   const [product, setProduct] = useState({ title: '', text: '', price: '', image: 'placeholder.jpg' });
+   const [count, setCount] = useState(1);
+   const [show, setShow] = useState(false);
+   const [imageSrc, setImageSrc] = useState(product.image ?? 'placeholder.jpg');
+
+   useEffect(() => {
+      if (detailedProducts[id])
+         setProduct(prev => ({ ...prev, ...detailedProducts[id] }));
+      else {
+         const preview = getDetailed(id);
+         if (preview) setProduct(prev => ({ ...prev, ...preview }));
+      }
+   }, [id, detailedProducts, getDetailed]);
+
+   useEffect(() => {
+      if (product) setImageSrc(product.image ?? 'placeholder.jpg');
+   }, [product]);
+
+   function decrement() {
+      if (count > 1) setCount(count - 1);
+   }
+
+   return (
+      &lt;Card className="detail mx-2s mx-md-3 mx-lg-4">
+         &lt;Card.Header className="d-flex justify-content-between">
+            &lt;Card.Title>{product.title}&lt;/Card.Title>
+         &lt;/Card.Header>
+         &lt;Card.Body className='row'>
+            &lt;Fade in={show}>
+               &lt;Image className="mb-2 col-md-6 col-lg-5 col-xl-4" fluid srcSet={`${process.env.REACT_APP_APIURL}/${imageSrc}`} alt={product.title} 
+               onLoad={() => setShow(true)} onError={() => setImageSrc('placeholder.jpg')} />               
+            &lt;/Fade>
+            &lt;Col sm="12" md="6" lg="7" xl="8" className='px-2 py-4'>
+               &lt;Card.Title >{product.title}&lt;/Card.Title>
+               &lt;p>Preis: {product.price} €&lt;/p>
+            &lt;/Col>
+            &lt;p>{product.text}&lt;/p>
+         &lt;/Card.Body>
+         &lt;Card.Footer className="d-flex align-items-center justify-content-end">
+            &lt;ButtonGroup className="mx-2">
+               &lt;Button onClick={() => decrement()}>-&lt;/Button>
+               &lt;Button>{count}&lt;/Button>
+               &lt;Button onClick={() => setCount(count + 1)}>+&lt;/Button>
+            &lt;/ButtonGroup>
+            &lt;span className="mx-2">{(product.price * count).toFixed(2)} €&lt;/span>
+            &lt;Button className='rounded-circle' onClick={() => addToCart(product, count)}>
+               &lt;svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart-plus" viewBox="0 0 16 16">
+                  &lt;path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+                  &lt;path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+               &lt;/svg>
+            &lt;/Button>
+         &lt;/Card.Footer>
+      &lt;/Card>
+   );
+}
+
+export default ProductDetails;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

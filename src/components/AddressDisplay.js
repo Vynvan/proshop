@@ -1,8 +1,8 @@
+import { Container } from "react-bootstrap";
+
 /**
  * @module Components
  */
-
-import { Container } from "react-bootstrap";
 
 /**
  * AddressDisplay is a React component that displays an address within a container.

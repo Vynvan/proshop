@@ -1,8 +1,8 @@
+import { Card, Row } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { Card, Row } from 'react-bootstrap';
 
 /**
  * A common footer component to hold the copyright and for the web nessesary links.

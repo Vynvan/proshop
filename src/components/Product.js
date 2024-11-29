@@ -1,10 +1,10 @@
-/**
- * @module Components
- */
-
 import { useState } from 'react';
 import { Button, Card, Fade } from 'react-bootstrap';
 import useCart from '../hooks/CartProvider';
+
+/**
+ * @module Components
+ */
 
 /**
  * A product component that displays product details including an image, title, description, and price.

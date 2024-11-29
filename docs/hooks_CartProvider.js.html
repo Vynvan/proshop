@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> hooks/CartProvider.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Components.html">Components</a></li><li><a href="module-Hooks.html">Hooks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Address">Address</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Cart">Cart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#ProductDetails">ProductDetails</a></li><li><a href="global.html#Products">Products</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#index">index</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>hooks/CartProvider.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createContext, useContext, useEffect, useReducer } from 'react';
+import useUser from './UserProvider';
+
+/**
+ * @module Hooks
+ */
+
+/**
+ * A context for the cart and its products saved in localStorage. Private (not exported)!
+ * @type {React.Context}
+ */
+const CartContext = createContext();
+
+/**
+ * CartProvider component that provides cart state and actions to its children.
+ * 
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components that will have access to the cart context.
+ * @returns {JSX.Element} The CartContext provider with the cart state and actions.
+ */
+export function CartProvider({ children }) {
+   const { user } = useUser();
+   const initialState = user &amp;&amp; localStorage.getItem(`cart-${user.userId}`) ? JSON.parse(localStorage.getItem(`cart-${user.userId}`)) : [];
+   
+   /**
+    * Reducer function to manage cart state.
+    *
+    * @param {Array} state - The current state of the cart, (i.e. an array of products).
+    * @param {Object} action - The action to perform on the state.
+    * @param {string} action.type - The type of action to perform (ADD, CLEAR, DECREMENT, REMOVE).
+    * @param {string} [action.id] - The ID of the product to modify.
+    * @param {Object} [action.product] - The product object to add to the cart (required for ADD action).
+    * @param {number} [action.quantity] - The quantity of the product to add (default is 1).
+    * @returns {Array} The updated state of the cart after applying the action, (i.e. an array of products).
+    */
+   const [cart, dispatch] = useReducer((state, action) => {
+      switch (action.type) {
+         case 'ADD':
+            const inCart = state.find(item => item.id === action.id);
+            if (inCart) {
+               inCart.quantity += 1;
+               return [...state];
+            }
+            else return [...state, { ...action.product, quantity: action.quantity || 1 }];
+         case 'CLEAR':
+            return [];
+         case 'DECREMENT':
+            const toDecrement = state.find(item => item.id === action.id);
+            if (toDecrement &amp;&amp; toDecrement.quantity > 1) {
+               toDecrement.quantity -= 1;
+               return [...state];
+            }
+            else return state;
+         case 'REMOVE':
+            return state.filter(item => item.id !== action.id);
+         default:
+            return state;
+      }
+   }, initialState);
+
+   useEffect(() => {
+      if (user &amp;&amp; cart) localStorage.setItem(`cart-${user.userId}`, JSON.stringify(cart));
+      else if (user) localStorage.removeItem(`cart-${user.userId}`);
+   }, [cart, user]);
+
+   /**
+    * Adds a product to the cart.
+    * 
+    * @param {Object} product - The product to add to the cart.
+    * @param {number} quantity - The quantity of the product to add.
+    */
+   function addToCart(product, quantity) {
+      dispatch({ id: product.id, product, quantity, type: 'ADD' });
+   }
+
+   /**
+    * Clears all items from the cart.
+    */
+   function clearCart() {
+      dispatch({ type: 'CLEAR' });
+   }
+
+   /**
+    * Decrements the quantity of a product in the cart.
+    * 
+    * @param {Object} param - The parameters (a product object).
+    * @param {string} param.id - The ID of the product to decrement.
+    */
+   function decrement({ id }) {
+      dispatch({ id, type: 'DECREMENT' });
+   }
+
+   /**
+    * Removes a product from the cart.
+    * 
+    * @param {Object} param - The parameters (a product object).
+    * @param {string} param.id - The ID of the product to remove.
+    */
+   function removeFromCart({ id }) {
+      dispatch({ id, type: 'REMOVE' });
+   }
+
+   return &lt;CartContext.Provider value={{ cart, addToCart, clearCart, decrement, removeFromCart }}>
+      {children}
+   &lt;/CartContext.Provider>;
+};
+
+/**
+ * Access to the CartProviders context via a hook.
+ * 
+ * @returns {React.Context} A hook to use everything the CartProvider offers.
+ */
+function useCart () {
+   return useContext(CartContext);
+};
+
+export default useCart;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

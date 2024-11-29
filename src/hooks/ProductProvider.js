@@ -1,8 +1,23 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import useFetch from './useFetch';
 
+/**
+ * @module Hooks
+ */
+
+/**
+ * A context for managing product data. Private (not exported)!
+ * @type {React.Context}
+ */
 const ProductContext = createContext();
 
+/**
+ * Provider component that fetches and provides product data to its children.
+ *
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The children components that can access the product context.
+ * @returns {JSX.Element} The ProductProvider component.
+ */
 export function ProductProvider({ children }) {
    const [detailedProducts, setDetailedProducts] = useState({});
    const [page, setPage] = useState(0);
@@ -39,7 +54,15 @@ export function ProductProvider({ children }) {
       }
    }, [result]);
 
-   const getDetailed = (id) => {
+   /**
+    * Retrieves detailed product object by product ID. This is used to send an imediate response to the ProductDetails component. 
+    * If the detailed description needs to be fetched, the available product object with short description is returned to show this 
+    * instead of a loading spinner.
+    *
+    * @param {string} id - The ID of the product to retrieve.
+    * @returns {Object|null} The detailed product information OR the product object with short description OR null if not in store.
+    */
+  const getDetailed = (id) => {
       if (detailedProducts && detailedProducts[id]) return detailedProducts[id];
       else if (productPages) {
          const product = productPages.map(pp => pp.items)
@@ -59,6 +82,13 @@ export function ProductProvider({ children }) {
    </ProductContext.Provider>;
 };
 
-export default function useProducts () {
+/**
+ * Access to the ProductProviders context via a hook.
+ * 
+ * @returns {React.Context} A hook to use everything the ProductProvider offers.
+ */
+function useProducts () {
    return useContext(ProductContext);
 };
+
+export default useProducts;

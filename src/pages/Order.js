@@ -5,10 +5,17 @@ import AddressDisplay from "../components/AddressDisplay";
 import ProductList from '../components/ProductList';
 import useFetch from '../hooks/useFetch';
 
-export default function Order() {
+/**
+ * Order component fetches and displays the details of a specific order, 
+ * including the products, delivery address, and order status.
+ *
+ * @returns {JSX.Element} The rendered Order component.
+ */
+function Order() {
    const { error, fetchUrl, loading, result } = useFetch();
    const { id } = useParams();
    const [order, setOrder] = useState(null);
+
    const address = useMemo(() => ({
       name: order?.address_name,
       street: order?.street,
@@ -17,6 +24,11 @@ export default function Order() {
       state: order?.state,
       country: order?.country
    }), [order]);
+
+   /**
+    * DROPPED FEATURE: This is to show the current state of the order, 
+    * that has to be set by an admin in the admin section, that was dropped due time reasons.
+    */
    const status = useMemo(() => order ? 
       order.status === 0 ? 'Ausstehend' :
       order.status === 1 ? 'Zahlung Ausstehend' :
@@ -42,10 +54,18 @@ export default function Order() {
       if (result?.order) setOrder(result.order);
    }, [result, setOrder]);
 
+   // Displays a message, if the order request errors out or no order was responded.
    if (!order || error) return (
       <div className='my-3 container-fluid d-flex'>
          <p className='mb-3 mx-auto'>Bestellung konnte nicht geladen werden.</p>
       </div>
+   );
+
+   // Display a loading spinner while the order is being fetched
+   if (loading) return (
+      <Container fluid="md" className="my-3 d-flex">
+         <Spinner className="mx-auto" animation="border" variant="primary" />
+      </Container>
    );
 
    return (
@@ -58,3 +78,5 @@ export default function Order() {
       </Container>
    );
 }
+
+export default Order;

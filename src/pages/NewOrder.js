@@ -6,7 +6,12 @@ import ProductList from '../components/ProductList';
 import useCart from "../hooks/CartProvider";
 import useFetch from '../hooks/useFetch';
 
-export default function Order() {
+/**
+ * Order page handles the order process, including selecting products, delivery address, and payment method.
+ *
+ * @returns {JSX.Element} The rendered Order component.
+ */
+function NewOrder() {
    const { cart, clearCart } = useCart();
    const { error, fetchUrl, loading, result } = useFetch();
    const [address, setAddress] = useState(null);
@@ -35,12 +40,14 @@ export default function Order() {
       fetchUrl('orders', 'POST', { ...order, products: cleanProducts, sumPrice: sum });
    }
 
+   // Displays a message, if the buy request errors out.
    if (error) return (
       <Container fluid="md" className="my-3 d-flex">
          <p className="mb-3 mx-auto">Bestellung konnte nicht versandt werden. Bitte versuchen Sie es erneut.</p>
       </Container>
    );
 
+   // Displays a message, if the cart is empty.
    if (noProducts) return (
       <Container fluid="md" className="my-3 d-flex">
          <p className="mb-3 mx-auto">Sie haben noch keine Artikel im Warenkorb.</p>
@@ -63,3 +70,5 @@ export default function Order() {
       </Container>
    );
 }
+
+export default NewOrder;

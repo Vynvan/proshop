@@ -2,11 +2,12 @@
   "opts": {
     "destination": "./docs",
     "recurse": true,
-    "template": "./node_modules/ink-docstrap/template"
+    "allowUnknownTags": true,
+    "template": "./node_modules/better-docs"
   },
   "plugins": ["plugins/markdown"],
   "source": {
-    "include": ["./src/components", "./src/hooks", "./src/pages"],
+    "include": ["src"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(node_modules/|\\.git/)"
   },

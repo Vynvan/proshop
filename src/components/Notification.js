@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
+import { Alert } from 'react-bootstrap';
+
 /**
  * @module Components
  */
-
-import { useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
 
 /**
  * A notification component that displays alert messages to the user.

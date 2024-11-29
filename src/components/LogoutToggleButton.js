@@ -1,13 +1,12 @@
-/**
- * @module Components
- */
-
 import { Button, DropdownItem } from 'react-bootstrap';
 import useUser from '../hooks/UserProvider';
 
 /**
- * LogoutToggleButton component that provides a button or dropdown item for logging out a user.
- * 
+ * @module Components
+ */
+
+/**
+ * LogoutToggleButton component that provides a button or dropdown item for logging out a user. * 
  * This component uses the `useUser` hook to access user information and the logout function.
  * It conditionally renders either a Button or a DropdownItem based on the `asDropdownItem` prop.
  * 

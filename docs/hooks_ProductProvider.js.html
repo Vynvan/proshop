@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> hooks/ProductProvider.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Components.html">Components</a></li><li><a href="module-Hooks.html">Hooks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Address">Address</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Cart">Cart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#ProductDetails">ProductDetails</a></li><li><a href="global.html#Products">Products</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#index">index</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>hooks/ProductProvider.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import useFetch from './useFetch';
+
+/**
+ * @module Hooks
+ */
+
+/**
+ * A context for managing product data. Private (not exported)!
+ * @type {React.Context}
+ */
+const ProductContext = createContext();
+
+/**
+ * Provider component that fetches and provides product data to its children.
+ *
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The children components that can access the product context.
+ * @returns {JSX.Element} The ProductProvider component.
+ */
+export function ProductProvider({ children }) {
+   const [detailedProducts, setDetailedProducts] = useState({});
+   const [page, setPage] = useState(0);
+   const [productPages, setProductPages] = useState([]);
+   const [total, setTotal] = useState(-1);
+   const { error, fetchUrl, loading, result } = useFetch();
+   const limit = 10;
+
+   useEffect(() => {
+      if (page > 0 &amp;&amp; !loading) {
+         const pageLoaded = productPages.some(pp => pp.limit === limit &amp;&amp; pp.page === page);
+         const totalLoaded = productPages.map(pp => pp.items.length).reduce((prev, curr) => prev + curr, 0);
+         if (!pageLoaded &amp;&amp; (totalLoaded &lt; total || total === -1))
+            fetchUrl(`products?page=${page}&amp;limit=${limit}`);
+      }
+   }, [fetchUrl, loading, page, productPages, total]);
+
+   useEffect(() => {
+      if (result) {
+         if (result.products) {
+            const { limit, page, products } = result;
+            if (!productPages.some(pp => pp.limit === limit &amp;&amp; pp.page === page))
+               setProductPages(prev => [...prev, { limit, page, items: products }]);
+         }
+         else if (result.product) {
+            const { product } = result;
+            setDetailedProducts((prev) => {
+               const combined = { ...prev[product.id], ...product };
+               return { ...prev, [product.id]: combined };
+            });
+         }
+
+         if (result.total) setTotal(result.total);
+      }
+   }, [result]);
+
+   /**
+    * Retrieves detailed product object by product ID. This is used to send an imediate response to the ProductDetails component. 
+    * If the detailed description needs to be fetched, the available product object with short description is returned to show this 
+    * instead of a loading spinner.
+    *
+    * @param {string} id - The ID of the product to retrieve.
+    * @returns {Object|null} The detailed product information OR the product object with short description OR null if not in store.
+    */
+  const getDetailed = (id) => {
+      if (detailedProducts &amp;&amp; detailedProducts[id]) return detailedProducts[id];
+      else if (productPages) {
+         const product = productPages.map(pp => pp.items)
+         .reduce((prev, items) => prev === null ? items.find(p => p.id === id) : prev, null);
+         if (product) {
+            fetchUrl(`products/${id}?update=true`);
+            setDetailedProducts(prev => ({ ...prev, [id]: product }));
+            return product;
+         }
+         else fetchUrl(`products/${id}`);
+      }
+      return null;
+   }
+
+   return &lt;ProductContext.Provider value={{ detailedProducts, error, getDetailed, loading, page, productPages, setPage }}>
+      {children}
+   &lt;/ProductContext.Provider>;
+};
+
+/**
+ * Access to the ProductProviders context via a hook.
+ * 
+ * @returns {React.Context} A hook to use everything the ProductProvider offers.
+ */
+function useProducts () {
+   return useContext(ProductContext);
+};
+
+export default useProducts;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

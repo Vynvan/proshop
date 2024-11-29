@@ -1,17 +1,21 @@
+import { createContext, useContext, useEffect, useReducer } from 'react';
+import useUser from './UserProvider';
+
 /**
  * @module Hooks
  */
 
-import { createContext, useContext, useEffect, useReducer } from 'react';
-import useUser from './UserProvider';
-
+/**
+ * A context for the cart and its products saved in localStorage. Private (not exported)!
+ * @type {React.Context}
+ */
 const CartContext = createContext();
 
 /**
  * CartProvider component that provides cart state and actions to its children.
  * 
  * @param {Object} props - The component props.
- * @param {ReactNode} props.children - The child components that will have access to the cart context.
+ * @param {React.ReactNode} props.children - The child components that will have access to the cart context.
  * @returns {JSX.Element} The CartContext provider with the cart state and actions.
  */
 export function CartProvider({ children }) {
@@ -104,7 +108,7 @@ export function CartProvider({ children }) {
 /**
  * Access to the CartProviders context via a hook.
  * 
- * @returns {JSX.Element} A hook to use everything the CartProvider offers.
+ * @returns {React.Context} A hook to use everything the CartProvider offers.
  */
 function useCart () {
    return useContext(CartContext);

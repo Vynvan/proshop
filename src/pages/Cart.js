@@ -3,11 +3,18 @@ import { Accordion, Button, ButtonGroup, Card, Container, Image } from "react-bo
 import { useNavigate } from 'react-router-dom';
 import useCart from "../hooks/CartProvider";
 
-export default function Cart() {
+/**
+ * Cart component displays the user's shopping cart.
+ * It allows users to view, modify, and remove items from their cart.
+ *
+ * @returns {JSX.Element} The rendered Cart component.
+ */
+function Cart() {
    const { cart, addToCart, decrement, removeFromCart } = useCart();
    const [activeKey, setActiveKey] = useState(null);
    const navigate = useNavigate();
 
+   // Display a message, if the cart is empty.
    if (!cart || cart.length === 0) return (
       <Container  fluid='md'>
          <p className="align-self-center text-center">Sie haben noch keine Artikel im Warenkorb.</p>
@@ -50,3 +57,5 @@ export default function Cart() {
       </Container>
    );
 }
+
+export default Cart;

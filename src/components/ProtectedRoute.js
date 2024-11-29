@@ -1,9 +1,9 @@
+import useUser from '../hooks/UserProvider';
+import { Navigate, Outlet } from 'react-router-dom';
+
 /**
  * @module Components
  */
-
-import useUser from '../hooks/UserProvider';
-import { Navigate, Outlet } from 'react-router-dom';
 
 /**
  * A component that protects routes by checking if a user is authenticated.

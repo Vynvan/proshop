@@ -1,9 +1,9 @@
+import { Badge } from "react-bootstrap";
+import useCart from "../hooks/CartProvider";
+
 /**
  * @module Components
  */
-
-import { Badge } from "react-bootstrap";
-import useCart from "../hooks/CartProvider";
 
 /**
  * CartLink component that displays a cart icon and the number of items in the cart.

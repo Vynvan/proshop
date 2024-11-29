@@ -1,10 +1,10 @@
-/**
- * @module Components
- */
-
 import { useState } from 'react';
 import { Accordion, Button, Card } from 'react-bootstrap';
 import AddressDisplay from './AddressDisplay';
+
+/**
+ * @module Components
+ */
 
 /**
  * A component that displays a list of addresses in an accordion format.
