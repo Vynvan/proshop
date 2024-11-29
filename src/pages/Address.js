@@ -15,7 +15,8 @@ import useQueryParam from '../hooks/useQueryParam';
  * @returns {JSX.Element} The rendered component.
  */
 function Address() {
-   const { error, fetchUrl, loading, result } = useFetch();
+   const { error: postError, fetchUrl: postFetchUrl, result: postResult } = useFetch();
+   const { error: putError, fetchUrl: putFetchUrl, result: putResult } = useFetch();
    const { addresses, error: errorAddresses, loading: loadingAddresses, setAddresses, reload } = useAddresses();
    const [address, setAddress] = useState(null);
    const [notification, setNotification] = useState('');
@@ -27,33 +28,46 @@ function Address() {
    }, [from]);
 
    useEffect(() => {
-      if (address) {
-         if (result?.addressId) {
-            setAddresses((prev) => [...prev, { ...address, id: result.addessId }]);
-            setAddress(null);
-            if (from === 'neworder') navigate('/neworder');
-         }
-         else if (result?.success === 1) {
-            if (address.id) reload();
-            setAddress(null);
-         }
+      console.log('postResult', postResult, address)
+      if (address && postResult?.addressId) {
+         const newAddress = { ...address, id: parseInt(postResult.addessId) };
+         setAddresses((prev) => [...prev, newAddress]);
+         setAddress(null);
+         if (from === 'neworder') navigate('/neworder');
       }
-   }, [result, setAddress, setAddresses]);
+   }, [postResult, setAddress, setAddresses]);
 
    useEffect(() => {
-      if (errorAddresses) setNotification(errorAddresses.message ?? 'Abrufen der Adressen fehlgeschlagen. Bitte erneut versuchen.');
-      else if (error) setNotification(error.message ?? 'Kommunikation mit dem Server fehlgeschlagen. Bitte erneut versuchen.')
-   }, [error, errorAddresses, setNotification]);
+      console.log('putResult', putResult)
+      if (address && putResult?.success == 1) {
+         setAddress(null);
+         reload();
+      }
+   }, [putResult, setAddress]);
+
+   useEffect(() => {
+      if (errorAddresses)
+         setNotification(errorAddresses.message ?? 'Abrufen der Adressen fehlgeschlagen. Bitte erneut versuchen.');
+      else if (postError)
+         setNotification(postError.message ?? 'Kommunikation mit dem Server fehlgeschlagen. Bitte erneut versuchen.');
+      else if (putError)
+         setNotification(putError.message ?? 'Kommunikation mit dem Server fehlgeschlagen. Bitte erneut versuchen.');
+   }, [errorAddresses, postError, putError, setNotification]);
 
    const handleSaveAddress = (e, formData) => {
+      console.log("Saving", formData)
       e.preventDefault();
-      if (formData) fetchUrl('address', formData.id ? 'PUT' : 'POST', formData);
+      if (formData) {
+         if (formData.id) putFetchUrl('address', 'PUT', formData);
+         else postFetchUrl('address', 'POST', formData);
+         setAddress(formData);
+      }
       else setAddress(null);
    };
 
    const handleToggle = ({ id }) => {
       const toggleAddress = addresses.find(a => a.id === id);
-      if (toggleAddress) fetchUrl('address', 'PUT', { id, isDefault: toggleAddress.isDefault === 1 ? 0 : 1 })
+      if (toggleAddress) putFetchUrl('address', 'PUT', { id, isDefault: toggleAddress.isDefault === 1 ? 0 : 1 })
    }
 
    // Display a loading spinner while addresses are being fetched
@@ -73,7 +87,6 @@ function Address() {
                <AddressForm address={address} saveAddress={(e, a) => handleSaveAddress(e, a)} />
             ) : (
                <div className='d-flex justify-content-around position-relative'>
-                  {loading && <Spinner animation="border" variant="primary" />}
                   <Button onClick={() => setAddress({ ...formDefaults })}>Adresse hinzufügen</Button>
                </div>
             )}

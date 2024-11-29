@@ -40,7 +40,6 @@ function AddressForm({ address, saveAddress }) {
       e.preventDefault();
       const { name, value } = e.target;
       setFormData(prev => ({ ...prev, [name]: value }));
-      console.log(formData)
    };
 
    return (
@@ -55,6 +54,7 @@ function AddressForm({ address, saveAddress }) {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Bezeichnung eingeben"
+                  maxLength={100}
                   required
                />
             </Form.Group>
@@ -66,6 +66,7 @@ function AddressForm({ address, saveAddress }) {
                   value={formData.street}
                   onChange={handleInputChange}
                   placeholder="Straße eingeben"
+                  maxLength={255}
                   required
                />
             </Form.Group>
@@ -78,6 +79,7 @@ function AddressForm({ address, saveAddress }) {
                   onChange={handleInputChange}
                   placeholder="Stadt eingeben"
                   className="form-control"
+                  maxLength={100}
                   required
                />
             </Form.Group>
@@ -90,6 +92,7 @@ function AddressForm({ address, saveAddress }) {
                   onChange={handleInputChange}
                   placeholder="Bundesland eingeben"
                   className="form-control"
+                  maxLength={100}
                />
             </Form.Group>
             <Form.Group className="my-3">
@@ -101,6 +104,7 @@ function AddressForm({ address, saveAddress }) {
                   onChange={handleInputChange}
                   placeholder="Postleitzahl eingeben"
                   className="form-control"
+                  maxLength={20}
                   required
                />
             </Form.Group>
@@ -113,6 +117,7 @@ function AddressForm({ address, saveAddress }) {
                   onChange={handleInputChange}
                   placeholder="Land eingeben"
                   className="form-control"
+                  maxLength={100}
                   required
                />
             </Form.Group>
